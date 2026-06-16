@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UNANIMOUS! - Host View Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;600&amp;family=Space+Grotesk:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Sora:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "secondary": "#dcb8ff",
+                "secondary-fixed": "#efdbff",
+                "outline": "#999077",
+                "background": "#000000",
+                "surface-container-high": "#282a2b",
+                "primary-container": "#ffd700",
+                "on-surface-variant": "#d0c6ab",
+                "error": "#ffb4ab",
+                "inverse-primary": "#705d00",
+                "tertiary": "#defcff",
+                "surface-bright": "#37393a",
+                "error-container": "#93000a",
+                "on-secondary-fixed-variant": "#6700b5",
+                "surface-dim": "#121414",
+                "primary": "#fff6df",
+                "on-tertiary-fixed-variant": "#004f54",
+                "on-secondary-fixed": "#2c0051",
+                "on-primary-fixed-variant": "#544600",
+                "surface": "#121414",
+                "outline-variant": "#4d4732",
+                "on-error-container": "#ffdad6",
+                "on-background": "#e2e2e2",
+                "on-tertiary-fixed": "#002022",
+                "tertiary-fixed-dim": "#00dbe8",
+                "surface-container-highest": "#333535",
+                "tertiary-fixed": "#79f5ff",
+                "surface-container-low": "#1a1c1c",
+                "tertiary-container": "#00f1ff",
+                "secondary-fixed-dim": "#dcb8ff",
+                "primary-fixed": "#ffe16d",
+                "on-secondary-container": "#dcb7ff",
+                "on-error": "#690005",
+                "surface-container-lowest": "#0c0f0f",
+                "surface-variant": "#333535",
+                "inverse-surface": "#e2e2e2",
+                "surface-tint": "#e9c400",
+                "on-primary": "#000000",
+                "on-primary-container": "#705e00",
+                "inverse-on-surface": "#2f3131",
+                "secondary-container": "#7701d0",
+                "on-surface": "#e2e2e2",
+                "on-primary-fixed": "#221b00",
+                "primary-fixed-dim": "#e9c400",
+                "on-tertiary-container": "#006a70",
+                "surface-container": "#1e2020",
+                "on-secondary": "#480081",
+                "on-tertiary": "#00363a"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "stack-sm": "12px",
+                "stack-lg": "48px",
+                "base": "8px",
+                "stack-md": "24px",
+                "gutter": "16px",
+                "container-margin": "24px"
+            },
+            "fontFamily": {
+                "title-md": ["Sora"],
+                "body-lg": ["Hanken Grotesk"],
+                "body-md": ["Hanken Grotesk"],
+                "headline-xl": ["Sora"],
+                "headline-lg-mobile": ["Sora"],
+                "headline-lg": ["Sora"],
+                "label-sm": ["Space Grotesk"]
+            },
+            "fontSize": {
+                "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #000000;
+            color: #e2e2e2;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .neon-glow {
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+        }
+        .gold-border-glow {
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
+        }
+        .glass-panel {
+            background: rgba(30, 32, 32, 0.4);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen font-body-md text-body-md overflow-x-hidden bg-background">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-background/80 backdrop-blur-md z-50 flex justify-between items-center px-container-margin py-base border-b border-white/5">
+<div class="flex items-center gap-4">
+<button class="text-primary-container hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary-container drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]">UNANIMOUS!</h1>
+</div>
+<button class="text-primary-container hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</header>
+<main class="flex-grow px-container-margin py-stack-lg max-w-4xl mx-auto w-full">
+<!-- Hero Section -->
+<section class="text-center mb-stack-lg"><h2 class="font-headline-xl text-headline-xl text-on-background mb-4 neon-glow uppercase tracking-tighter">Host View</h2><p class="text-on-surface-variant font-body-lg text-body-lg max-w-xl mx-auto opacity-80">Real-time management and simulation control for <span class="text-primary-container font-semibold">Lumina Noir Engine</span> nodes.</p></section>
+<!-- Primary Action -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-stack-lg"><div class="glass-panel border border-white/10 rounded-xl p-6 flex flex-col items-center gap-2"><span class="material-symbols-outlined text-primary-container">speed</span><span class="text-label-sm uppercase tracking-widest opacity-60">Latency</span><span class="text-headline-lg font-bold">24ms</span></div><div class="glass-panel border border-white/10 rounded-xl p-6 flex flex-col items-center gap-2"><span class="material-symbols-outlined text-primary-container">hub</span><span class="text-label-sm uppercase tracking-widest opacity-60">Active Nodes</span><span class="text-headline-lg font-bold">12/12</span></div><div class="glass-panel border border-white/10 rounded-xl p-6 flex flex-col items-center gap-2"><span class="material-symbols-outlined text-primary-container">security</span><span class="text-label-sm uppercase tracking-widest opacity-60">Integrity</span><span class="text-headline-lg font-bold">99.9%</span></div></div><button class="w-full py-4 bg-primary-container text-on-primary rounded-xl font-bold text-title-md uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(255,215,0,0.3)] hover:opacity-90 transition-all active:scale-[0.98] mb-stack-lg flex items-center justify-center gap-3"><span class="material-symbols-outlined">meeting_room</span>MANAGE ROOMS</button>
+<!-- Remaining Screens List -->
+<div class="space-y-gutter">
+<div class="flex items-center justify-between px-4">
+<h3 class="font-title-md text-title-md text-secondary-fixed">System Modules</h3>
+<span class="font-label-sm text-label-sm text-outline px-2 py-1 border border-outline-variant rounded-full">ACTIVE</span>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Host View Card -->
+<div class="glass-panel border border-white/5 rounded-xl p-6 flex items-center justify-between hover:border-primary-container/30 transition-all group">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">ACTIVE</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-background">Host View</p>
+<p class="text-on-surface-variant font-body-md text-body-md opacity-60">Admin dashboard and real-time monitoring</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant opacity-40 group-hover:text-primary-container group-hover:opacity-100 transition-all">ACTIVE</span>
+</div>
+</div>
+<!-- Shop Card -->
+<div class="glass-panel border border-white/5 rounded-xl p-6 flex items-center justify-between hover:border-primary-container/30 transition-all group">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">ACTIVE</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-background">Shop</p>
+<p class="text-on-surface-variant font-body-md text-body-md opacity-60">Asset marketplace and currency exchange</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant opacity-40 group-hover:text-primary-container group-hover:opacity-100 transition-all">ACTIVE</span>
+</div>
+</div>
+<!-- Connection Overlays Card -->
+<div class="glass-panel border border-white/5 rounded-xl p-6 flex items-center justify-between hover:border-primary-container/30 transition-all group">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">ACTIVE</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-background">Connection Overlays</p>
+<p class="text-on-surface-variant font-body-md text-body-md opacity-60">Status indicators and sync animations</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant opacity-40 group-hover:text-primary-container group-hover:opacity-100 transition-all">ACTIVE</span>
+</div>
+</div>
+<!-- Round 2 Simulation Card -->
+<div class="glass-panel border border-white/5 rounded-xl p-6 flex items-center justify-between hover:border-primary-container/30 transition-all group border-primary-container/20">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">ACTIVE</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-background">Round 2 Simulation</p>
+<p class="text-on-surface-variant font-body-md text-body-md opacity-60">Advanced logic engine for game scenarios</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container animate-pulse">ACTIVE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Atmospheric Visual -->
+<div class="mt-stack-lg rounded-2xl overflow-hidden h-48 relative border border-white/10">
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A cinematic, high-contrast digital abstract visualization showing streams of golden particles flowing through a black void. The lighting is nocturnal and moody, with sharp neon gold highlights and soft purple reflections. The scene feels premium, futuristic, and sophisticated, representing high-speed data transmission and processing within a dark-mode luxury aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfktR90TDI-Cfhm1rpZP--cMtu46J53c9X9FNLou8ghV4Bd-aJp0BzlKM8IE6UGl67v0qUgRCMKu1rlR52heRI_SpmN0TY_QdLzw-gZMJyEYrc_E662WFUPDMahCJ6T7V3T96_xwrcp8O-sB88JyHbWwwEcs9YtsljYQuHFMIce8H9oJVT7k6CIU_Ay5PpUyq4VqFIIZS4obZg93ZS-37SNFxKoX8_42PVjGwPZMYhsH-0kI9lP9FCOX7DQvlgA3smTQLideDB47j_"/>
+<div class="absolute inset-0 flex flex-col items-center justify-center z-20">
+<p class="font-label-sm text-label-sm uppercase tracking-[0.3em] text-primary-container">Project Phase II</p>
+<p class="font-title-md text-title-md">LUMINA NOIR ENGINE</p>
+<p class="font-label-sm text-label-sm opacity-60 mt-2 text-center px-4">Batch 2 (MGMT_SIMS.ZIP) files use 'batch2_' prefix to protect Core Game Loop assets.</p></div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 py-4 bg-background/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-4px_20px_rgba(255,215,0,0.1)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-outline hover:text-primary-container transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-110 duration-200 ease-out">tv</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest mt-1">Rooms</span>
+</a>
+<a class="flex flex-col items-center justify-center text-outline hover:text-primary-container transition-colors group" href="#">
+<span class="material-symbols-outlined group-active:scale-110 duration-200 ease-out">history</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary rounded-full px-6 py-2 transition-transform active:scale-95 shadow-[0_0_15px_rgba(255,215,0,0.3)]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest mt-1">Settings</span>
+</a>
+</nav>
+<script>
+        document.getElementById('mainExportBtn').addEventListener('click', function() {
+            const btn = this;
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = `
+                <div class="flex flex-col items-center gap-4">
+                    <svg class="animate-spin h-10 w-10 text-primary-container" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="font-headline-lg text-headline-lg text-primary-container">PACKAGING BATCH 2...</span>
+                </div>
+            `;
+            btn.classList.add('border-primary-container');
+
+            setTimeout(() => {
+                btn.innerHTML = `
+                    <span class="material-symbols-outlined text-4xl text-primary-container">check_circle</span>
+                    <span class="font-headline-lg text-headline-lg text-primary-container">EXPORT SUCCESSFUL</span>
+                    <span class="px-4 py-1 bg-primary-container text-on-primary rounded font-label-sm text-label-sm uppercase tracking-[0.2em] font-bold">MGMT_SIMS_FINAL.ZIP</span>
+                `;
+                
+                // Reset after 3 seconds
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                }, 3000);
+            }, 2500);
+        });
+    </script>
+</body></html>
