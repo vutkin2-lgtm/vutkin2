@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="en"><head>
+<html class="dark" lang="en" style=""><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>UNANIMOUS! - Core Game Loop</title>
@@ -133,7 +133,7 @@
 </head>
 <body class="font-body-md bg-pitch-black min-h-screen flex flex-col">
 <!-- WebGL Background Placeholder Canvas -->
-<canvas id="bg-canvas"></canvas>
+<canvas height="1259" id="bg-canvas" width="390"></canvas>
 <!-- TopAppBar -->
 <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-pitch-black dark:bg-pitch-black border-b border-glass-border shadow-[0_0_15px_rgba(255,215,0,0.1)]">
 <div class="flex items-center gap-4">
@@ -161,7 +161,7 @@
 <div class="glass-panel border border-glass-border p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
 <div class="absolute top-0 left-0 w-full h-1 bg-neon-gold/30"></div>
 <span class="font-label-caps text-label-caps text-neon-gold mb-2">CURRENT POT</span>
-<span class="font-data-display text-[40px] text-neon-gold font-bold tracking-tight">$50,000</span>
+<span class="font-data-display text-[40px] text-neon-gold font-bold tracking-tight" style="transform: translateX(0px);">$50,000</span>
 <span class="font-data-label text-data-label text-on-surface-variant mt-1">LOCKED ASSETS</span>
 </div>
 <!-- System Ping -->
@@ -183,12 +183,12 @@
 </div>
 <div class="flex flex-col md:flex-row gap-6 w-full max-w-md">
 <!-- Main Button: Enter Arena -->
-<button class="flex-1 group relative px-10 py-5 bg-pitch-black border-[3px] border-neon-gold font-headline-md text-neon-gold uppercase tracking-widest glitch-hover transition-all duration-300 hover:neon-glow-gold active:scale-95" onclick="location.href='arena.html'">
+<button class="flex-1 group relative px-10 py-5 bg-pitch-black border-[3px] border-neon-gold font-headline-md text-neon-gold uppercase tracking-widest glitch-hover transition-all duration-300 hover:neon-glow-gold active:scale-95" onclick="location.href='player_join.html'">
 <span class="relative z-10">Enter Arena</span>
 <div class="absolute inset-0 bg-neon-gold opacity-0 group-hover:opacity-10 transition-opacity"></div>
 </button>
 <!-- Secondary Button: Practice -->
-<button class="flex-1 px-10 py-5 border border-on-surface-variant/30 font-label-caps text-label-caps text-on-surface uppercase tracking-widest hover:bg-on-surface-variant/10 transition-all duration-200 active:scale-95">
+<button class="flex-1 px-10 py-5 border border-on-surface-variant/30 font-label-caps text-label-caps text-on-surface uppercase tracking-widest hover:bg-on-surface-variant/10 transition-all duration-200 active:scale-95" onclick="location.href='practice_range.html'">
                     Practice Range
                 </button>
 </div>
