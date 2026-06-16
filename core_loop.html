@@ -7,7 +7,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -41,6 +40,16 @@
             background-color: #000000;
             overflow-x: hidden;
             color: #e4e1e6;
+        }
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
         }
     </style>
 <script id="tailwind-config">
@@ -117,14 +126,14 @@
         }
     </script>
 <style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
 </head>
 <body class="font-body-md bg-pitch-black min-h-screen flex flex-col">
-<!-- WebGL Background Placeholder -->
-
+<!-- WebGL Background Placeholder Canvas -->
+<canvas id="bg-canvas"></canvas>
 <!-- TopAppBar -->
 <header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-pitch-black dark:bg-pitch-black border-b border-glass-border shadow-[0_0_15px_rgba(255,215,0,0.1)]">
 <div class="flex items-center gap-4">
@@ -165,8 +174,8 @@
 <!-- Hero Content / Action Zone -->
 <div class="flex flex-col items-center space-y-10 text-center">
 <div class="space-y-4 max-w-2xl">
-<h2 class="font-headline-lg text-4xl md:text-6xl font-extrabold uppercase tracking-tighter text-on-surface">
-                    The Void <span class="text-neon-gold">Awaits</span>
+<h2 class="font-headline-lg text-4xl md:text-6xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-[0_0_20px_rgba(255,215,0,0.3)]">
+                    The Void <span class="text-neon-gold drop-shadow-[0_0_12px_rgba(255,215,0,0.6)]">Awaits</span>
 </h2>
 <p class="font-body-lg text-body-lg text-on-surface-variant px-4">
                     High-stakes social deduction in the neural net. One wrong consensus ends the cycle. Are you in sync?
@@ -174,7 +183,7 @@
 </div>
 <div class="flex flex-col md:flex-row gap-6 w-full max-w-md">
 <!-- Main Button: Enter Arena -->
-<button class="flex-1 group relative px-10 py-5 bg-pitch-black border-[3px] border-neon-gold font-headline-md text-neon-gold uppercase tracking-widest glitch-hover transition-all duration-300 hover:neon-glow-gold active:scale-95">
+<button class="flex-1 group relative px-10 py-5 bg-pitch-black border-[3px] border-neon-gold font-headline-md text-neon-gold uppercase tracking-widest glitch-hover transition-all duration-300 hover:neon-glow-gold active:scale-95" onclick="location.href='arena.html'">
 <span class="relative z-10">Enter Arena</span>
 <div class="absolute inset-0 bg-neon-gold opacity-0 group-hover:opacity-10 transition-opacity"></div>
 </button>
@@ -193,39 +202,77 @@
 <!-- BottomNavBar -->
 <nav class="fixed bottom-0 left-0 w-full z-50 h-20 bg-pitch-black/90 backdrop-blur-md flex justify-around items-center border-t border-glass-border">
 <!-- Home (Active) -->
-<a class="flex flex-col items-center justify-center text-primary-container drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] font-bold active:scale-90 transition-transform duration-150" href="#">
+<a class="flex flex-col items-center justify-center text-primary-container drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] font-bold active:scale-95 transition-transform duration-150" href="index.html">
 <span class="material-symbols-outlined mb-1">home</span>
 <span class="font-label-caps text-[10px] tracking-wider">Home</span>
 </a>
 <!-- Rooms -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 transition-opacity active:scale-90 transition-transform duration-150" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 active:scale-95 transition-all duration-150" href="mgmt_sims.html">
 <span class="material-symbols-outlined mb-1">grid_view</span>
 <span class="font-label-caps text-[10px] tracking-wider">Rooms</span>
 </a>
 <!-- History -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 transition-opacity active:scale-90 transition-transform duration-150" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 active:scale-95 transition-all duration-150" href="#">
 <span class="material-symbols-outlined mb-1">history</span>
 <span class="font-label-caps text-[10px] tracking-wider">History</span>
 </a>
 <!-- Settings -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 transition-opacity active:scale-90 transition-transform duration-150" href="#">
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 active:scale-95 transition-all duration-150" href="#">
 <span class="material-symbols-outlined mb-1">settings</span>
 <span class="font-label-caps text-[10px] tracking-wider">Settings</span>
 </a>
 </nav>
-<!-- Interactive Micro-Interactions -->
+<!-- Interactive Micro-Interactions & Background Shader -->
 <script>
-        // Simple logic for pulse/glitch synchronization or button effects
-        document.querySelectorAll('button').forEach(btn => {
+        // Background Shader Logic (Simplified Animated Grid/Stars)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const dots = Array.from({length: 100}, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: (Math.random() - 0.5) * 0.5,
+            size: Math.random() * 2
+        }));
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#FFD700';
+            dots.forEach(dot => {
+                dot.x += dot.vx;
+                dot.y += dot.vy;
+                if(dot.x < 0) dot.x = width;
+                if(dot.x > width) dot.x = 0;
+                if(dot.y < 0) dot.y = height;
+                if(dot.y > height) dot.y = 0;
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Button interaction logic
+        document.querySelectorAll('button, a').forEach(btn => {
             btn.addEventListener('mouseenter', () => {
-                const soundFeedback = new AudioContext(); // Just conceptually, no actual sound loaded
+                // Potential haptic or sound feedback logic
             });
         });
 
         // Add random "glitch" flickers to the dash values
         setInterval(() => {
             const prize = document.querySelector('.font-data-display.text-neon-gold');
-            if(Math.random() > 0.95) {
+            if(prize && Math.random() > 0.95) {
                 prize.style.transform = 'translateX(' + (Math.random() * 4 - 2) + 'px)';
                 setTimeout(() => prize.style.transform = 'translateX(0)', 50);
             }

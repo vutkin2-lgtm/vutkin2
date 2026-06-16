@@ -3,168 +3,339 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>UNANIMOUS! - Export Batch 1</title>
+<title>UNANIMOUS! - Into the System</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;500&amp;family=Space+Grotesk:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Sora:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .neon-gold-glow {
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-        }
-        .neon-gold-glow-hover:hover {
-            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
-        }
-        .glass-panel {
-            background: rgba(18, 20, 20, 0.6);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 215, 0, 0.1);
-        }
-        @keyframes subtle-pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.85; }
-        }
-        .animate-glow {
-            animation: subtle-pulse 3s infinite ease-in-out;
-        }
-    </style>
+<!-- Tailwind Theme Configuration -->
 <script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "secondary": "#dcb8ff",
-                      "secondary-fixed": "#efdbff",
-                      "outline": "#999077",
-                      "background": "#000000",
-                      "surface-container-high": "#282a2b",
-                      "primary-container": "#ffd700",
-                      "on-surface-variant": "#d0c6ab",
-                      "error": "#ffb4ab",
-                      "inverse-primary": "#705d00",
-                      "tertiary": "#defcff",
-                      "surface-bright": "#37393a",
-                      "error-container": "#93000a",
-                      "on-secondary-fixed-variant": "#6700b5",
-                      "surface-dim": "#121414",
-                      "primary": "#fff6df",
-                      "on-tertiary-fixed-variant": "#004f54",
-                      "on-secondary-fixed": "#2c0051",
-                      "on-primary-fixed-variant": "#544600",
-                      "surface": "#121414",
-                      "outline-variant": "#4d4732",
-                      "on-error-container": "#ffdad6",
-                      "on-background": "#e2e2e2",
-                      "on-tertiary-fixed": "#002022",
-                      "tertiary-fixed-dim": "#00dbe8",
-                      "surface-container-highest": "#333535",
-                      "tertiary-fixed": "#79f5ff",
-                      "surface-container-low": "#1a1c1c",
-                      "tertiary-container": "#00f1ff",
-                      "secondary-fixed-dim": "#dcb8ff",
-                      "primary-fixed": "#ffd700",
-                      "on-secondary-container": "#dcb7ff",
-                      "on-error": "#690005",
-                      "surface-container-lowest": "#0c0f0f",
-                      "surface-variant": "#333535",
-                      "inverse-surface": "#e2e2e2",
-                      "surface-tint": "#ffd700",
-                      "on-primary": "#000000",
-                      "on-primary-container": "#000000",
-                      "inverse-on-surface": "#2f3131",
-                      "secondary-container": "#7701d0",
-                      "on-surface": "#e2e2e2",
-                      "on-primary-fixed": "#000000",
-                      "primary-fixed-dim": "#ffd700",
-                      "on-tertiary-container": "#006a70",
-                      "surface-container": "#1e2020",
-                      "on-secondary": "#480081",
-                      "on-tertiary": "#00363a"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.25rem",
-                      "lg": "0.5rem",
-                      "xl": "0.75rem",
-                      "full": "9999px"
-              },
-              "spacing": {
-                      "stack-sm": "12px",
-                      "stack-lg": "48px",
-                      "base": "8px",
-                      "stack-md": "24px",
-                      "gutter": "16px",
-                      "container-margin": "24px"
-              },
-              "fontFamily": {
-                      "title-md": ["Sora"],
-                      "body-lg": ["Hanken Grotesk"],
-                      "body-md": ["Hanken Grotesk"],
-                      "headline-xl": ["Sora"],
-                      "headline-lg-mobile": ["Sora"],
-                      "headline-lg": ["Sora"],
-                      "label-sm": ["Space Grotesk"]
-              },
-              "fontSize": {
-                      "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
-                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
-                      "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
-                      "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
-                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
-                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
-              }
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#353438",
+                    "surface-tint": "#e9c400",
+                    "tertiary-container": "#00f1ff",
+                    "surface-bright": "#39393c",
+                    "surface-container-high": "#2a2a2d",
+                    "bright-yellow": "#FFFF00",
+                    "on-error-container": "#ffdad6",
+                    "secondary-fixed": "#79ff5b",
+                    "surface-container": "#1f1f22",
+                    "inverse-surface": "#e4e1e6",
+                    "surface-container-highest": "#353438",
+                    "on-background": "#e4e1e6",
+                    "primary-fixed-dim": "#e9c400",
+                    "on-surface": "#e4e1e6",
+                    "background": "#131316",
+                    "inverse-primary": "#705d00",
+                    "on-secondary": "#053900",
+                    "outline-variant": "#4d4732",
+                    "on-tertiary-fixed": "#002022",
+                    "secondary": "#d7ffc5",
+                    "on-secondary-fixed": "#022100",
+                    "pitch-black": "#000000",
+                    "on-tertiary": "#00363a",
+                    "on-tertiary-container": "#006a70",
+                    "secondary-container": "#2ff801",
+                    "glass-border": "rgba(255, 255, 255, 0.1)",
+                    "primary-fixed": "#ffe16d",
+                    "electric-lime": "#39FF14",
+                    "surface-container-low": "#1b1b1e",
+                    "tertiary": "#defcff",
+                    "system-gray": "#D1D5DB",
+                    "surface-container-lowest": "#0e0e11",
+                    "surface-dim": "#131316",
+                    "on-primary-fixed": "#221b00",
+                    "neon-gold": "#FFD700",
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#004f54",
+                    "primary": "#fff6df",
+                    "inverse-on-surface": "#303033",
+                    "on-error": "#690005",
+                    "tertiary-fixed": "#79f5ff",
+                    "outline": "#999077",
+                    "secondary-fixed-dim": "#2ae500",
+                    "on-primary-fixed-variant": "#544600",
+                    "on-primary-container": "#705e00",
+                    "on-primary": "#3a3000",
+                    "on-secondary-fixed-variant": "#095300",
+                    "surface": "#131316",
+                    "on-secondary-container": "#0f6d00",
+                    "primary-container": "#ffd700",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#00dbe8",
+                    "on-surface-variant": "#d0c6ab"
             },
-          },
+            "fontFamily": {
+                    "headline-md": ["Sora"],
+                    "headline-lg-mobile": ["Sora"],
+                    "data-label": ["JetBrains Mono"],
+                    "label-caps": ["Sora"],
+                    "data-display": ["JetBrains Mono"],
+                    "body-md": ["Sora"],
+                    "body-lg": ["Sora"],
+                    "headline-lg": ["Sora"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "data-label": ["14px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "600"}],
+                    "data-display": ["20px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}]
+            }
+          }
         }
+      }
     </script>
 <style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-<style>
-            @keyframes progress {
-                0% { transform: translateX(-100%); }
-                100% { transform: translateX(400%); }
-            }
-        </style></head>
-<body class="bg-background text-on-background min-h-screen font-body-md selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden"><div class="fixed inset-0 -z-10 overflow-hidden"><div class="absolute inset-0 bg-gradient-to-br from-surface-container-lowest via-background to-surface-container-lowest"></div><div class="absolute inset-0 opacity-30 mix-blend-overlay" style="background-image: radial-gradient(circle at 50% 50%, #ffd700 0%, transparent 50%); filter: blur(80px);"></div></div>
-<!-- TopAppBar -->
-<header class="w-full top-0 sticky z-50 bg-transparent flex justify-between items-center px-container-margin py-8"><div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full border border-primary-container/30 flex items-center justify-center backdrop-blur-md bg-surface/20"><span class="material-symbols-outlined text-primary-fixed">shield</span></div><div class="flex flex-col"><span class="text-label-sm text-primary-fixed/60 uppercase tracking-widest">Season 01</span><span class="font-title-md text-on-surface">THE AWAKENING</span></div></div><div class="flex items-center gap-6"><div class="flex flex-col items-end"><span class="text-label-sm text-outline uppercase">Credits</span><span class="font-title-md text-primary-fixed">1,250</span></div><button class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors"><span class="material-symbols-outlined text-on-surface">person</span></button></div></header>
-<main class="relative px-container-margin py-stack-md flex flex-col gap-stack-lg max-w-3xl mx-auto pb-32"><section class="flex flex-col items-center text-center gap-stack-lg mt-12"><div class="relative"><div class="absolute -inset-8 bg-primary-container/20 blur-3xl rounded-full animate-glow"></div><h1 class="relative font-headline-xl text-headline-xl text-primary-fixed tracking-tighter drop-shadow-[0_0_15px_rgba(255,215,0,0.4)]">UNANIMOUS!</h1><p class="text-label-sm text-secondary uppercase tracking-[0.5em] mt-2">The Ultimate Consensus Engine</p></div><div class="flex flex-col gap-4 w-full max-w-md mt-8"><button class="group relative w-full py-6 px-8 rounded-xl bg-primary-container text-on-primary-container font-headline-lg font-bold overflow-hidden transition-all hover:scale-[1.02] active:scale-95 shadow-[0_0_30px_rgba(255,215,0,0.3)]"><div class="relative z-10 flex items-center justify-center gap-3"><span class="material-symbols-outlined text-3xl">swords</span><span>ENTER ARENA</span></div><div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div></button><button class="w-full py-4 px-8 rounded-xl border border-outline-variant text-on-surface font-title-md hover:bg-surface-container-low transition-colors">PRACTICE RANGE</button></div><div class="grid grid-cols-3 gap-4 w-full mt-12"><div class="p-4 rounded-lg bg-surface-container-lowest/40 backdrop-blur-md border border-white/5 flex flex-col items-center gap-2"><span class="material-symbols-outlined text-secondary">groups</span><span class="text-label-sm text-outline uppercase">Active</span><span class="font-title-md text-on-surface">14.2k</span></div><div class="p-4 rounded-lg bg-surface-container-lowest/40 backdrop-blur-md border border-white/5 flex flex-col items-center gap-2"><span class="material-symbols-outlined text-primary-fixed">emoji_events</span><span class="text-label-sm text-outline uppercase">Prize Pool</span><span class="font-title-md text-on-surface">50k</span></div><div class="p-4 rounded-lg bg-surface-container-lowest/40 backdrop-blur-md border border-white/5 flex flex-col items-center gap-2"><span class="material-symbols-outlined text-tertiary">bolt</span><span class="text-label-sm text-outline uppercase">Ping</span><span class="font-title-md text-on-surface">24ms</span></div></div></section></main>
-<!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 py-4 bg-background/80 backdrop-blur-xl border-t border-white/10 shadow-[0_-4px_20px_rgba(255,215,0,0.1)] rounded-t-xl"><a class="flex flex-col items-center justify-center text-primary-fixed transition-colors" href="#"><span class="material-symbols-outlined">home</span><span class="font-label-sm text-[10px] uppercase tracking-widest mt-1">Home</span></a><a class="flex flex-col items-center justify-center text-outline hover:text-primary-fixed transition-colors" href="#"><span class="material-symbols-outlined">storefront</span><span class="font-label-sm text-[10px] uppercase tracking-widest mt-1">Market</span></a><a class="flex flex-col items-center justify-center text-outline hover:text-primary-fixed transition-colors" href="#"><span class="material-symbols-outlined">social_leaderboard</span><span class="font-label-sm text-[10px] uppercase tracking-widest mt-1">Ranks</span></a><a class="flex flex-col items-center justify-center text-outline hover:text-primary-fixed transition-colors" href="#"><span class="material-symbols-outlined">settings</span><span class="font-label-sm text-[10px] uppercase tracking-widest mt-1">Config</span></a></nav>
-<!-- Micro-interaction Script -->
-<script>
-        document.getElementById('export-button').addEventListener('click', function() {
-            const btn = this;
-            const originalContent = btn.innerHTML;
-            
-            btn.classList.add('opacity-50', 'pointer-events-none');
-            btn.innerHTML = `
-                <div class="flex flex-col items-center gap-2">
-                    <span class="material-symbols-outlined animate-spin text-4xl mb-2">sync</span>
-                    <span class="tracking-tight">COMPILING ASSETS...</span>
-                    <div class="w-48 h-1 bg-black/20 rounded-full mt-4 overflow-hidden">
-                        <div class="h-full bg-white animate-[progress_2s_ease-in-out_infinite]" style="width: 30%"></div>
-                    </div>
-                </div>
-            `;
+        body {
+            background-color: #000000;
+            color: #e4e1e6;
+            overflow-x: hidden;
+            min-height: max(884px, 100dvh);
+        }
 
-            setTimeout(() => {
-                btn.innerHTML = `
-                    <div class="flex flex-col items-center gap-2">
-                        <span class="material-symbols-outlined text-4xl mb-2">download_done</span>
-                        <span class="tracking-tight">EXPORT COMPLETE</span>
-                        <span class="font-label-sm text-label-sm uppercase bg-black/20 px-3 py-1 rounded mt-1 font-bold text-on-primary-container tracking-widest border border-black/10">BATCH_1_UNANIMOUS.ZIP</span>
-                    </div>
-                `;
-                btn.classList.remove('opacity-50', 'pointer-events-none');
-            }, 2500);
+        .neon-glow-gold {
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+            border: 2px solid #FFD700;
+        }
+
+        .neon-glow-white {
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .glitch-text:hover {
+            text-shadow: 2px 0 #FFD700, -2px 0 #00f1ff;
+            animation: glitch 0.2s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .entrance-glitch {
+            animation: entrance-glitch 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        @keyframes entrance-glitch {
+            0% { transform: translate(0); text-shadow: 0 0 0 transparent; opacity: 0; }
+            10% { transform: translate(-5px, -2px); text-shadow: 2px 0 #FFD700; opacity: 1; }
+            20% { transform: translate(5px, 2px); text-shadow: -2px 0 #00f1ff; }
+            30% { transform: translate(-2px, 4px); text-shadow: 1px 0 #FFD700; }
+            40% { transform: translate(2px, -4px); text-shadow: -1px 0 #00f1ff; }
+            50% { transform: translate(0); text-shadow: 0 0 0 transparent; }
+            100% { transform: translate(0); opacity: 1; }
+        }
+
+        .glass-panel {
+            background: rgba(24, 24, 27, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .system-scan {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .system-scan::after {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(255, 215, 0, 0.05), transparent);
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-neon-gold selection:text-pitch-black">
+<!-- Immersive Background -->
+<canvas id="bg-canvas"></canvas>
+<div class="fixed inset-0 z-0 pointer-events-none">
+<div class="absolute inset-0 bg-gradient-to-b from-pitch-black via-transparent to-pitch-black"></div>
+</div>
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-pitch-black/90 backdrop-blur-md border-b border-glass-border shadow-[0_0_15px_rgba(255,215,0,0.1)]">
+<div class="flex items-center gap-4">
+<button class="text-primary-container active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-black tracking-tighter text-primary-container drop-shadow-[0_0_8px_rgba(255,215,0,0.6)] uppercase">
+                UNANIMOUS!
+            </h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-data-label text-data-label text-neon-gold bg-neon-gold/10 px-2 py-1 border border-neon-gold/30">SYSTEM_ACTIVE</span>
+<button class="text-primary-container active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-10 min-h-screen pt-24 pb-32 flex flex-col items-center justify-center px-6 max-w-container-max mx-auto">
+<!-- Hero Section -->
+<div class="text-center mb-16 entrance-glitch">
+<p class="font-label-caps text-label-caps text-neon-gold mb-4 tracking-[0.3em] uppercase">Selection Protocol Initiated</p>
+<h2 class="font-headline-lg text-headline-lg md:text-headline-lg lg:text-headline-lg font-extrabold text-white leading-none">CHOOSE YOUR <span class="text-primary-container">PATH.</span></h2>
+</div>
+<!-- Module Selection Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+<!-- Core Game Loop Card -->
+<div class="group relative bg-surface-container-lowest/80 backdrop-blur-xl p-8 neon-glow-gold rounded-none transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer system-scan overflow-hidden" onclick="window.location.href='core_loop.html'">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-neon-gold/20 rounded-none border border-neon-gold">
+<span class="material-symbols-outlined text-neon-gold" data-icon="rocket_launch" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+</div>
+<span class="font-data-label text-data-label text-neon-gold animate-pulse">STATUS: READY</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white mb-3 uppercase tracking-tight group-hover:text-neon-gold transition-colors">Core Game Loop</h3>
+<p class="text-on-surface-variant font-body-md mb-8 leading-relaxed">
+                    Enter the high-stakes arena where every decision is final. Navigate through the clinical interface of the voting engine and lock in your fate.
+                </p>
+<div class="flex items-center justify-between border-t border-glass-border pt-6">
+<span class="font-data-label text-data-label text-on-surface-variant">MODULE_ID: CORE_01</span>
+<button class="flex items-center gap-2 group-hover:translate-x-2 transition-transform active:scale-95" onclick="event.stopPropagation(); window.location.href='core_loop.html'">
+<span class="font-label-caps text-label-caps text-neon-gold font-bold">LAUNCH SEQUENCE</span>
+<span class="material-symbols-outlined text-neon-gold" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Management & Simulation Card -->
+<div class="group relative bg-surface-container-lowest/80 backdrop-blur-xl p-8 neon-glow-white rounded-none transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer overflow-hidden" onclick="window.location.href='mgmt_sims.html'">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-white/10 rounded-none border border-white/30">
+<span class="material-symbols-outlined text-white" data-icon="monitoring" style="font-variation-settings: 'FILL' 1;">monitoring</span>
+</div>
+<span class="font-data-label text-data-label text-system-gray opacity-50">STATUS: STANDBY</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-white mb-3 uppercase tracking-tight group-hover:text-white transition-colors">Management &amp; Simulation</h3>
+<p class="text-on-surface-variant font-body-md mb-8 leading-relaxed">
+                    Architect the system. Manage resources, monitor real-time data streams, and simulate outcomes before they impact the grid.
+                </p>
+<div class="flex items-center justify-between border-t border-glass-border pt-6">
+<span class="font-data-label text-data-label text-on-surface-variant">MODULE_ID: SIM_0X</span>
+<button class="flex items-center gap-2 group-hover:translate-x-2 transition-transform active:scale-95" onclick="event.stopPropagation(); window.location.href='mgmt_sims.html'">
+<span class="font-label-caps text-label-caps text-white font-bold">ACCESS TERMINAL</span>
+<span class="material-symbols-outlined text-white" data-icon="terminal">terminal</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bottom Informational Bar (Bento style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 w-full">
+<div class="bg-surface-container/50 border border-glass-border p-4 flex flex-col gap-2">
+<span class="font-data-label text-[10px] text-neon-gold/50 uppercase tracking-widest">Global Latency</span>
+<span class="font-data-display text-data-display text-white">12.4ms</span>
+</div>
+<div class="bg-surface-container/50 border border-glass-border p-4 flex flex-col gap-2">
+<span class="font-data-label text-[10px] text-neon-gold/50 uppercase tracking-widest">Active Nodes</span>
+<span class="font-data-display text-data-display text-white">4,092</span>
+</div>
+<div class="bg-surface-container/50 border border-glass-border p-4 flex flex-col gap-2">
+<span class="font-data-label text-[10px] text-neon-gold/50 uppercase tracking-widest">System Integrity</span>
+<div class="flex items-center gap-2">
+<span class="font-data-display text-data-display text-electric-lime">STABLE</span>
+<div class="w-2 h-2 rounded-full bg-electric-lime animate-ping"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 bg-pitch-black/90 backdrop-blur-md border-t border-glass-border">
+<a class="flex flex-col items-center justify-center text-primary-container drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] font-bold transition-transform active:scale-90 duration-150" href="index.html">
+<span class="material-symbols-outlined mb-1" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-caps text-label-caps uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 transition-opacity active:scale-90 duration-150" href="mgmt_sims.html">
+<span class="material-symbols-outlined mb-1" data-icon="grid_view">grid_view</span>
+<span class="font-label-caps text-label-caps uppercase">Rooms</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 transition-opacity active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="history">history</span>
+<span class="font-label-caps text-label-caps uppercase">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 transition-opacity active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-label-caps text-label-caps uppercase">Settings</span>
+</a>
+</nav>
+<script>
+        // WebGL Shader Background Initialization (Simulated with Canvas)
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw subtle digital nodes/grid
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.03)';
+            ctx.lineWidth = 1;
+            const step = 40;
+            for(let x = 0; x < width; x += step) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
+            }
+            for(let y = 0; y < height; y += step) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
+            }
+            
+            requestAnimationFrame(draw);
+        }
+        draw();
+
+        // Atmosphere: subtle flicker effect on neon elements
+        setInterval(() => {
+            const goldElements = document.querySelectorAll('.neon-glow-gold');
+            goldElements.forEach(el => {
+                if (Math.random() > 0.98) {
+                    el.style.opacity = '0.8';
+                    setTimeout(() => el.style.opacity = '1', 50);
+                }
+            });
+        }, 100);
+
+        // Interactive logic for buttons
+        document.querySelectorAll('[onclick]').forEach(el => {
+            const originalClick = el.onclick;
+            el.onclick = (e) => {
+                if (originalClick) originalClick.call(el, e);
+            };
         });
     </script>
 </body></html>
