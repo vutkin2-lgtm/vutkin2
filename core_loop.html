@@ -1,281 +1,260 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="en" style=""><head>
+<html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>UNANIMOUS! - Core Game Loop</title>
+<title>UNANIMOUS! - Host View Dashboard</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-        }
-        .neon-glow-gold {
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-        .neon-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.05); }
-        }
-        .glitch-hover:hover {
-            animation: glitch 0.15s cubic-bezier(.25,.46,.45,.94) both infinite;
-        }
-        @keyframes glitch {
-            0% { transform: translate(0); text-shadow: -2px 0 #FFD700, 2px 0 #39FF14; }
-            25% { transform: translate(-1px, 1px); }
-            50% { transform: translate(1px, -1px); }
-            75% { transform: translate(-1px, -1px); }
-            100% { transform: translate(0); }
-        }
-        body {
-            background-color: #000000;
-            overflow-x: hidden;
-            color: #e4e1e6;
-        }
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.15;
-            pointer-events: none;
-        }
-    </style>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Hanken+Grotesk:wght@400;600&amp;family=Space+Grotesk:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "surface-bright": "#39393c",
-                      "primary-fixed-dim": "#e9c400",
-                      "on-primary-container": "#705e00",
-                      "on-error-container": "#ffdad6",
-                      "outline-variant": "#4d4732",
-                      "secondary-fixed-dim": "#2ae500",
-                      "outline": "#999077",
-                      "on-error": "#690005",
-                      "on-surface": "#e4e1e6",
-                      "background": "#131316",
-                      "primary-fixed": "#ffe16d",
-                      "on-primary": "#3a3000",
-                      "secondary": "#d7ffc5",
-                      "neon-gold": "#FFD700",
-                      "tertiary-container": "#00f1ff",
-                      "surface": "#131316",
-                      "secondary-fixed": "#79ff5b",
-                      "on-tertiary-fixed-variant": "#004f54",
-                      "on-secondary": "#053900",
-                      "inverse-primary": "#705d00",
-                      "secondary-container": "#2ff801",
-                      "on-secondary-fixed": "#022100",
-                      "surface-container-lowest": "#0e0e11",
-                      "system-gray": "#D1D5DB",
-                      "on-primary-fixed": "#221b00",
-                      "tertiary-fixed": "#79f5ff",
-                      "surface-tint": "#e9c400",
-                      "error-container": "#93000a",
-                      "inverse-on-surface": "#303033",
-                      "on-secondary-fixed-variant": "#095300",
-                      "error": "#ffb4ab",
-                      "surface-container-highest": "#353438",
-                      "on-background": "#e4e1e6",
-                      "on-tertiary-fixed": "#002022",
-                      "bright-yellow": "#FFFF00",
-                      "surface-container-high": "#2a2a2d",
-                      "surface-container": "#1f1f22",
-                      "primary-container": "#ffd700",
-                      "on-tertiary-container": "#006a70",
-                      "tertiary-fixed-dim": "#00dbe8",
-                      "on-secondary-container": "#0f6d00",
-                      "on-primary-fixed-variant": "#544600",
-                      "inverse-surface": "#e4e1e6",
-                      "tertiary": "#defcff",
-                      "surface-container-low": "#1b1b1e",
-                      "electric-lime": "#39FF14",
-                      "primary": "#fff6df",
-                      "surface-dim": "#131316",
-                      "pitch-black": "#000000",
-                      "on-tertiary": "#00363a",
-                      "glass-border": "rgba(255, 255, 255, 0.1)",
-                      "surface-variant": "#353438",
-                      "on-surface-variant": "#d0c6ab"
-              },
-              "fontFamily": {
-                      "headline-lg": ["Sora"],
-                      "headline-md": ["Sora"],
-                      "body-md": ["Sora"],
-                      "label-caps": ["Sora"],
-                      "data-label": ["JetBrains Mono"],
-                      "data-display": ["JetBrains Mono"],
-                      "body-lg": ["Sora"]
-              },
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "secondary": "#dcb8ff",
+                "secondary-fixed": "#efdbff",
+                "outline": "#999077",
+                "background": "#000000",
+                "surface-container-high": "#282a2b",
+                "primary-container": "#ffd700",
+                "on-surface-variant": "#d0c6ab",
+                "error": "#ffb4ab",
+                "inverse-primary": "#705d00",
+                "tertiary": "#defcff",
+                "surface-bright": "#37393a",
+                "error-container": "#93000a",
+                "on-secondary-fixed-variant": "#6700b5",
+                "surface-dim": "#121414",
+                "primary": "#fff6df",
+                "on-tertiary-fixed-variant": "#004f54",
+                "on-secondary-fixed": "#2c0051",
+                "on-primary-fixed-variant": "#544600",
+                "surface": "#121414",
+                "outline-variant": "#4d4732",
+                "on-error-container": "#ffdad6",
+                "on-background": "#e2e2e2",
+                "on-tertiary-fixed": "#002022",
+                "tertiary-fixed-dim": "#00dbe8",
+                "surface-container-highest": "#333535",
+                "tertiary-fixed": "#79f5ff",
+                "surface-container-low": "#1a1c1c",
+                "tertiary-container": "#00f1ff",
+                "secondary-fixed-dim": "#dcb8ff",
+                "primary-fixed": "#ffe16d",
+                "on-secondary-container": "#dcb7ff",
+                "on-error": "#690005",
+                "surface-container-lowest": "#0c0f0f",
+                "surface-variant": "#333535",
+                "inverse-surface": "#e2e2e2",
+                "surface-tint": "#e9c400",
+                "on-primary": "#000000",
+                "on-primary-container": "#705e00",
+                "inverse-on-surface": "#2f3131",
+                "secondary-container": "#7701d0",
+                "on-surface": "#e2e2e2",
+                "on-primary-fixed": "#221b00",
+                "primary-fixed-dim": "#e9c400",
+                "on-tertiary-container": "#006a70",
+                "surface-container": "#1e2020",
+                "on-secondary": "#480081",
+                "on-tertiary": "#00363a"
             },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "stack-sm": "12px",
+                "stack-lg": "48px",
+                "base": "8px",
+                "stack-md": "24px",
+                "gutter": "16px",
+                "container-margin": "24px"
+            },
+            "fontFamily": {
+                "title-md": ["Sora"],
+                "body-lg": ["Hanken Grotesk"],
+                "body-md": ["Hanken Grotesk"],
+                "headline-xl": ["Sora"],
+                "headline-lg-mobile": ["Sora"],
+                "headline-lg": ["Sora"],
+                "label-sm": ["Space Grotesk"]
+            },
+            "fontSize": {
+                "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
           },
-        }
+        },
+      }
     </script>
 <style>
         body {
-            min-height: max(884px, 100dvh);
+            background-color: #000000;
+            color: #e2e2e2;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100dvh;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .neon-glow {
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+        }
+        .glass-panel {
+            background: rgba(30, 32, 32, 0.4);
+            backdrop-filter: blur(20px);
         }
     </style>
 </head>
-<body class="font-body-md bg-pitch-black min-h-screen flex flex-col">
-<!-- WebGL Background Placeholder Canvas -->
-<canvas height="1259" id="bg-canvas" width="390"></canvas>
+<body class="flex flex-col font-body-md text-body-md overflow-x-hidden bg-background">
 <!-- TopAppBar -->
-<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-pitch-black dark:bg-pitch-black border-b border-glass-border shadow-[0_0_15px_rgba(255,215,0,0.1)]">
+<header class="w-full top-0 sticky bg-background/80 backdrop-blur-md z-50 flex justify-between items-center px-container-margin py-base border-b border-white/5">
 <div class="flex items-center gap-4">
-<span class="material-symbols-outlined text-primary-container cursor-pointer active:scale-95 transition-transform">menu</span>
-<h1 class="font-headline-md text-headline-md font-black tracking-tighter text-primary-container drop-shadow-[0_0_8px_rgba(255,215,0,0.6)]">UNANIMOUS!</h1>
-</div>
-<div class="flex items-center gap-4">
-<span class="material-symbols-outlined text-primary-container cursor-pointer hover:text-primary-fixed transition-colors active:scale-95">account_circle</span>
-</div>
-</header>
-<!-- Main Canvas -->
-<main class="relative z-10 flex-grow flex flex-col items-center justify-center pt-24 pb-32 px-margin-mobile">
-<!-- Live Status Dashboard -->
-<div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-gutter mb-12">
-<!-- Active Players -->
-<div class="glass-panel border border-glass-border p-6 flex flex-col items-center justify-center text-center">
-<span class="font-label-caps text-label-caps text-on-surface-variant mb-2">ACTIVE INSTANCES</span>
-<div class="flex items-baseline gap-2">
-<span class="font-data-display text-[32px] text-electric-lime">14.2k</span>
-<div class="w-2 h-2 rounded-full bg-electric-lime neon-pulse"></div>
-</div>
-<span class="font-data-label text-data-label text-on-surface-variant mt-1">REAL-TIME SYNC</span>
-</div>
-<!-- Prize Pool -->
-<div class="glass-panel border border-glass-border p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
-<div class="absolute top-0 left-0 w-full h-1 bg-neon-gold/30"></div>
-<span class="font-label-caps text-label-caps text-neon-gold mb-2">CURRENT POT</span>
-<span class="font-data-display text-[40px] text-neon-gold font-bold tracking-tight" style="transform: translateX(0px);">$50,000</span>
-<span class="font-data-label text-data-label text-on-surface-variant mt-1">LOCKED ASSETS</span>
-</div>
-<!-- System Ping -->
-<div class="glass-panel border border-glass-border p-6 flex flex-col items-center justify-center text-center">
-<span class="font-label-caps text-label-caps text-on-surface-variant mb-2">NEURAL LATENCY</span>
-<span class="font-data-display text-[32px] text-on-surface">24<span class="text-on-surface-variant text-lg">ms</span></span>
-<span class="font-data-label text-data-label text-on-surface-variant mt-1">GATEWAY: OLYMPUS-7</span>
-</div>
-</div>
-<!-- Hero Content / Action Zone -->
-<div class="flex flex-col items-center space-y-10 text-center">
-<div class="space-y-4 max-w-2xl">
-<h2 class="font-headline-lg text-4xl md:text-6xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-[0_0_20px_rgba(255,215,0,0.3)]">
-                    The Void <span class="text-neon-gold drop-shadow-[0_0_12px_rgba(255,215,0,0.6)]">Awaits</span>
-</h2>
-<p class="font-body-lg text-body-lg text-on-surface-variant px-4">
-                    High-stakes social deduction in the neural net. One wrong consensus ends the cycle. Are you in sync?
-                </p>
-</div>
-<div class="flex flex-col md:flex-row gap-6 w-full max-w-md">
-<!-- Main Button: Enter Arena -->
-<button class="flex-1 group relative px-10 py-5 bg-pitch-black border-[3px] border-neon-gold font-headline-md text-neon-gold uppercase tracking-widest glitch-hover transition-all duration-300 hover:neon-glow-gold active:scale-95" onclick="location.href='player_join.html'">
-<span class="relative z-10">Enter Arena</span>
-<div class="absolute inset-0 bg-neon-gold opacity-0 group-hover:opacity-10 transition-opacity"></div>
+<button class="text-primary-container hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined">menu</span>
 </button>
-<!-- Secondary Button: Practice -->
-<button class="flex-1 px-10 py-5 border border-on-surface-variant/30 font-label-caps text-label-caps text-on-surface uppercase tracking-widest hover:bg-on-surface-variant/10 transition-all duration-200 active:scale-95" onclick="location.href='practice_range.html'">
-                    Practice Range
-                </button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary-container drop-shadow-[0_0_8px_rgba(255,215,0,0.4)]">UNANIMOUS!</h1>
 </div>
-<!-- Subtle Technical Detail -->
-<div class="pt-8 flex flex-col items-center opacity-40">
-<div class="w-px h-16 bg-gradient-to-b from-neon-gold to-transparent mb-4"></div>
-<p class="font-data-label text-data-label uppercase tracking-widest">Protocol V.9.4 // Core Loaded</p>
+<button class="text-primary-container hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</header>
+<main class="flex-grow px-container-margin py-stack-lg max-w-4xl mx-auto w-full mb-24">
+<!-- Hero Section -->
+<section class="text-center mb-stack-lg">
+<h2 class="font-headline-xl text-headline-xl text-on-background mb-4 neon-glow uppercase tracking-tighter">Host View</h2>
+<p class="text-on-surface-variant font-body-lg text-body-lg max-w-xl mx-auto opacity-80">
+            Real-time management and simulation control for <span class="text-primary-container font-semibold">Lumina Noir Engine</span> nodes.
+        </p>
+</section>
+<!-- Stats Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-stack-lg">
+<div class="glass-panel border border-white/10 rounded-xl p-6 flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">speed</span>
+<span class="text-label-sm uppercase tracking-widest opacity-60">Latency</span>
+<span class="text-headline-lg font-bold">24ms</span>
+</div>
+<div class="glass-panel border border-white/10 rounded-xl p-6 flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">hub</span>
+<span class="text-label-sm uppercase tracking-widest opacity-60">Active Nodes</span>
+<span class="text-headline-lg font-bold">12/12</span>
+</div>
+<div class="glass-panel border border-white/10 rounded-xl p-6 flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-primary-container">security</span>
+<span class="text-label-sm uppercase tracking-widest opacity-60">Integrity</span>
+<span class="text-headline-lg font-bold">99.9%</span>
+</div>
+</div>
+<!-- Primary Action -->
+<a class="w-full py-4 bg-primary-container text-on-primary rounded-xl font-bold text-title-md uppercase tracking-[0.2em] shadow-[0_0_15px_rgba(255,215,0,0.3)] hover:brightness-110 transition-all active:scale-[0.98] mb-stack-lg flex items-center justify-center gap-3" href="mgmt_sims.html">
+<span class="material-symbols-outlined">meeting_room</span>MANAGE ROOMS
+    </a>
+<!-- System Modules -->
+<div class="space-y-gutter">
+<div class="flex items-center justify-between px-4">
+<h3 class="font-title-md text-title-md text-secondary-fixed">System Modules</h3>
+<span class="font-label-sm text-label-sm text-outline px-2 py-1 border border-outline-variant rounded-full">ACTIVE</span>
+</div>
+<div class="grid grid-cols-1 gap-4">
+<!-- Host View Card -->
+<button class="w-full glass-panel border border-white/5 rounded-xl p-6 flex items-center justify-between hover:border-primary-container/30 hover:bg-white/[0.05] active:bg-white/[0.08] transition-all group text-left">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">monitoring</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-background">Host View</p>
+<p class="text-on-surface-variant font-body-md text-body-md opacity-60">Admin dashboard and real-time monitoring</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container">check_circle</span>
+</div>
+</button>
+<!-- Shop Card -->
+<button class="w-full glass-panel border border-white/5 rounded-xl p-6 flex items-center justify-between hover:border-primary-container/30 hover:bg-white/[0.05] active:bg-white/[0.08] transition-all group text-left">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-background">Shop</p>
+<p class="text-on-surface-variant font-body-md text-body-md opacity-60">Asset marketplace and currency exchange</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-outline opacity-40">lock_open</span>
+</div>
+</button>
+<!-- Connection Overlays Card -->
+<button class="w-full glass-panel border border-white/5 rounded-xl p-6 flex items-center justify-between hover:border-primary-container/30 hover:bg-white/[0.05] active:bg-white/[0.08] transition-all group text-left">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">layers</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-background">Connection Overlays</p>
+<p class="text-on-surface-variant font-body-md text-body-md opacity-60">Status indicators and sync animations</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container">check_circle</span>
+</div>
+</button>
+<!-- Round 2 Simulation Card -->
+<button class="w-full glass-panel border border-primary-container/30 rounded-xl p-6 flex items-center justify-between hover:border-primary-container/50 hover:bg-white/[0.05] active:bg-white/[0.08] transition-all group text-left">
+<div class="flex items-center gap-6">
+<div class="w-12 h-12 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary-container group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">precision_manufacturing</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-background">Round 2 Simulation</p>
+<p class="text-on-surface-variant font-body-md text-body-md opacity-60">Advanced logic engine for game scenarios</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-container animate-pulse">settings_input_component</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Atmospheric Visual -->
+<div class="mt-stack-lg rounded-2xl overflow-hidden h-48 relative border border-white/10">
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10"></div>
+<img alt="Atmospheric visualization" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfktR90TDI-Cfhm1rpZP--cMtu46J53c9X9FNLou8ghV4Bd-aJp0BzlKM8IE6UGl67v0qUgRCMKu1rlR52heRI_SpmN0TY_QdLzw-gZMJyEYrc_E662WFUPDMahCJ6T7V3T96_xwrcp8O-sB88JyHbWwwEcs9YtsljYQuHFMIce8H9oJVT7k6CIU_Ay5PpUyq4VqFIIZS4obZg93ZS-37SNFxKoX8_42PVjGwPZMYhsH-0kI9lP9FCOX7DQvlgA3smTQLideDB47j_"/>
+<div class="absolute inset-0 flex flex-col items-center justify-center z-20">
+<p class="font-label-sm text-label-sm uppercase tracking-[0.3em] text-primary-container">Project Phase II</p>
+<p class="font-title-md text-title-md">LUMINA NOIR ENGINE</p>
+<p class="font-label-sm text-label-sm opacity-60 mt-2 text-center px-4">Batch 2 (MGMT_SIMS.ZIP) files use 'batch2_' prefix to protect Core Game Loop assets.</p>
 </div>
 </div>
 </main>
 <!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 h-20 bg-pitch-black/90 backdrop-blur-md flex justify-around items-center border-t border-glass-border">
-<!-- Home (Active) -->
-<a class="flex flex-col items-center justify-center text-primary-container drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] font-bold active:scale-95 transition-transform duration-150" href="index.html">
-<span class="material-symbols-outlined mb-1">home</span>
-<span class="font-label-caps text-[10px] tracking-wider">Home</span>
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 py-4 bg-background/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-4px_20px_rgba(255,215,0,0.1)]">
+<a class="flex flex-col items-center justify-center text-outline hover:text-primary-container transition-colors group" href="index.html">
+<span class="material-symbols-outlined group-active:scale-110 duration-200 ease-out">home</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest mt-1">Home</span>
 </a>
-<!-- Rooms -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 active:scale-95 transition-all duration-150" href="mgmt_sims.html">
-<span class="material-symbols-outlined mb-1">grid_view</span>
-<span class="font-label-caps text-[10px] tracking-wider">Rooms</span>
+<a class="flex flex-col items-center justify-center text-primary-container transition-colors group" href="mgmt_sims.html">
+<span class="material-symbols-outlined group-active:scale-110 duration-200 ease-out" style="font-variation-settings: 'FILL' 1;">tv</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest mt-1">Rooms</span>
 </a>
-<!-- History -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 active:scale-95 transition-all duration-150" href="#">
-<span class="material-symbols-outlined mb-1">history</span>
-<span class="font-label-caps text-[10px] tracking-wider">History</span>
+<a class="flex flex-col items-center justify-center text-outline hover:text-primary-container transition-colors group" href="core_loop.html">
+<span class="material-symbols-outlined group-active:scale-110 duration-200 ease-out">history</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest mt-1">History</span>
 </a>
-<!-- Settings -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 active:scale-95 transition-all duration-150" href="#">
-<span class="material-symbols-outlined mb-1">settings</span>
-<span class="font-label-caps text-[10px] tracking-wider">Settings</span>
+<a class="flex flex-col items-center justify-center text-outline hover:text-primary-container transition-colors group" href="core_loop.html">
+<span class="material-symbols-outlined group-active:scale-110 duration-200 ease-out">settings</span>
+<span class="font-label-sm text-label-sm uppercase tracking-widest mt-1">Settings</span>
 </a>
 </nav>
-<!-- Interactive Micro-Interactions & Background Shader -->
-<script>
-        // Background Shader Logic (Simplified Animated Grid/Stars)
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        const dots = Array.from({length: 100}, () => ({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            size: Math.random() * 2
-        }));
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = '#FFD700';
-            dots.forEach(dot => {
-                dot.x += dot.vx;
-                dot.y += dot.vy;
-                if(dot.x < 0) dot.x = width;
-                if(dot.x > width) dot.x = 0;
-                if(dot.y < 0) dot.y = height;
-                if(dot.y > height) dot.y = 0;
-                ctx.beginPath();
-                ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // Button interaction logic
-        document.querySelectorAll('button, a').forEach(btn => {
-            btn.addEventListener('mouseenter', () => {
-                // Potential haptic or sound feedback logic
-            });
-        });
-
-        // Add random "glitch" flickers to the dash values
-        setInterval(() => {
-            const prize = document.querySelector('.font-data-display.text-neon-gold');
-            if(prize && Math.random() > 0.95) {
-                prize.style.transform = 'translateX(' + (Math.random() * 4 - 2) + 'px)';
-                setTimeout(() => prize.style.transform = 'translateX(0)', 50);
-            }
-        }, 1000);
-    </script>
 </body></html>
