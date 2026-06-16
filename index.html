@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNANIMOUS!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background:#000; color:#fff; font-family:Arial,sans-serif; }
+        .card { transition:0.3s; }
+        .card:hover { transform:translateY(-5px); }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-8">
+<div class="max-w-4xl w-full text-center">
+    <h1 class="text-5xl font-bold text-yellow-400 mb-4">UNANIMOUS!</h1>
+    <p class="text-gray-300 mb-12">Select a module to launch.</p>
+    <div class="grid md:grid-cols-2 gap-8">
+        <a href="index_batch1.html" class="card block border border-yellow-500 rounded-xl p-8 bg-zinc-900">
+            <h2 class="text-2xl font-bold text-yellow-400 mb-4">Core Game Loop</h2>
+            <p class="text-gray-300">
+                Gameplay screens, voting system, results, eliminations,
+                leaderboards and victory flow.
+            </p>
+        </a>
+        <a href="index_batch2.html" class="card block border border-yellow-500 rounded-xl p-8 bg-zinc-900">
+            <h2 class="text-2xl font-bold text-yellow-400 mb-4">Management & Simulation</h2>
+            <p class="text-gray-300">
+                Host controls, admin dashboard, shop, overlays and simulation engine.
+            </p>
+        </a>
+    </div>
+</div>
+</body>
+</html>
