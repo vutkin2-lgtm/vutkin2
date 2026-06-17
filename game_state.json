@@ -1,7 +1,7 @@
 {
-  "current_topic": "Funny Doctors",
-  "current_question_index": 2,
-  "is_game_in_progress": false,
+  "current_topic": "Funny Animals",
+  "current_question_index": 0,
+  "is_game_in_progress": true,
   "questions": [
     {
       "topic": "Funny Doctors",
