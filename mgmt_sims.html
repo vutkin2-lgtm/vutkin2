@@ -28,15 +28,20 @@
         text-align: center;
     }
 
-    /* HOME ICON */
+    /* HOME ICON — CIRCLE WITH YELLOW BACKGROUND */
     .home-icon {
-        font-size: 32px;
-        cursor: pointer;
-        color: #ffffff;
-        text-align: left;
-        margin-bottom: 10px;
-        width: 100%;
+        width: 42px;
+        height: 42px;
+        background: #f7d000;
+        color: #000000;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 22px;
         font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 10px;
     }
 
     h1 {
@@ -141,7 +146,7 @@
 <body>
 <div class="container">
 
-    <!-- HOME ICON (works as Home button) -->
+    <!-- HOME ICON -->
     <div class="home-icon" onclick="goHome()">⌂</div>
 
     <h1>UNANIMOUS!</h1>
@@ -177,7 +182,6 @@
 </div>
 
 <script>
-/* HOME NAVIGATION */
 function goHome() {
     window.location.href = "https://vutkin2-lgtm.github.io/vutkin2/index.html";
 }
@@ -234,7 +238,6 @@ function updateVotes() {
     }
 }
 
-/* Simulate votes coming in */
 setInterval(updateVotes, 1500);
 </script>
 
