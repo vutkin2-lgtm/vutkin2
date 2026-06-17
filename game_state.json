@@ -55,6 +55,122 @@
         "You're looking a little draped",
         "Try opening up"
       ]
+    },
+
+    /* ---------------------------------------------------------
+       NEW TOPIC: FUNNY ANIMALS
+    --------------------------------------------------------- */
+    {
+      "topic": "Funny Animals",
+      "question": "Why did the cow become an astronaut?",
+      "correct_answer": "To see the moooon",
+      "difficulty": "simple",
+      "timer_seconds": 30,
+      "points": {
+        "correct": 1,
+        "wrong": 0,
+        "maybe": 1
+      },
+      "options": [
+        "To see the moooon",
+        "To escape the farm taxes",
+        "To find space grass",
+        "To join the Milky Way union"
+      ]
+    },
+    {
+      "topic": "Funny Animals",
+      "question": "What do you call a bear with no teeth?",
+      "correct_answer": "A gummy bear",
+      "difficulty": "moderate",
+      "timer_seconds": 60,
+      "points": {
+        "correct": 3,
+        "wrong": -1,
+        "maybe": 1
+      },
+      "options": [
+        "A gummy bear",
+        "A soft grizzly",
+        "A bear in retirement",
+        "A cuddly predator"
+      ]
+    },
+    {
+      "topic": "Funny Animals",
+      "question": "Why did the chicken join a band?",
+      "correct_answer": "Because it had the drumsticks",
+      "difficulty": "complex",
+      "timer_seconds": 120,
+      "points": {
+        "correct": 5,
+        "wrong": -1,
+        "maybe": 1
+      },
+      "options": [
+        "Because it had the drumsticks",
+        "Because it wanted to wing it",
+        "Because it crossed the road to the concert",
+        "Because it needed a new pecking order"
+      ]
+    },
+
+    /* ---------------------------------------------------------
+       NEW TOPIC: FUNNY FLOWERS
+    --------------------------------------------------------- */
+    {
+      "topic": "Funny Flowers",
+      "question": "Why did the flower start telling jokes?",
+      "correct_answer": "It wanted to be a blooming comedian",
+      "difficulty": "simple",
+      "timer_seconds": 30,
+      "points": {
+        "correct": 1,
+        "wrong": 0,
+        "maybe": 1
+      },
+      "options": [
+        "It wanted to be a blooming comedian",
+        "It was tired of being picked on",
+        "It wanted to grow its audience",
+        "It needed to plant new ideas"
+      ]
+    },
+    {
+      "topic": "Funny Flowers",
+      "question": "What do flowers do when they get embarrassed?",
+      "correct_answer": "They turn rosy",
+      "difficulty": "moderate",
+      "timer_seconds": 60,
+      "points": {
+        "correct": 3,
+        "wrong": -1,
+        "maybe": 1
+      },
+      "options": [
+        "They turn rosy",
+        "They wilt a little",
+        "They hide behind leaves",
+        "They drop their petals"
+      ]
+    },
+    {
+      "topic": "Funny Flowers",
+      "question": "Why did the sunflower bring a ladder to the garden?",
+      "correct_answer": "It wanted to reach new heights",
+      "difficulty": "complex",
+      "timer_seconds": 120,
+      "points": {
+        "correct": 5,
+        "wrong": -1,
+        "maybe": 1
+      },
+      "options": [
+        "It wanted to reach new heights",
+        "It was tired of being overshadowed",
+        "It wanted to look down on the daisies",
+        "It was climbing the social stem"
+      ]
     }
   ],
   "is_game_in_progress": true
