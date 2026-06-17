@@ -12,6 +12,12 @@
         background: #0d0d0d;
         font-family: Arial, sans-serif;
         color: #f7d000;
+        animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
     .container {
@@ -39,9 +45,25 @@
         text-decoration: none;
         color: #f7d000;
         display: block;
+        transition: 0.25s;
     }
 
-    /* UPDATED PANEL STYLING */
+    .btn:hover {
+        box-shadow: 0 0 12px #f7d000;
+        transform: scale(1.03);
+    }
+
+    /* BACK BUTTON */
+    .back-btn {
+        text-align: left;
+        margin-bottom: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        color: #ffffff;
+        text-decoration: underline;
+    }
+
+    /* QUESTION PANEL */
     .panel {
         border: 3px solid #f7d000;
         border-radius: 10px;
@@ -66,7 +88,7 @@
         font-size: 18px;
         line-height: 1.4;
         margin-bottom: 15px;
-        color: #ffffff; /* white text */
+        color: #ffffff;
     }
 
     .status-row {
@@ -74,9 +96,10 @@
         justify-content: space-between;
         font-size: 18px;
         margin-bottom: 10px;
-        color: #ffffff; /* white text */
+        color: #ffffff;
     }
 
+    /* STANDINGS */
     .standings {
         margin-top: 25px;
         text-align: left;
@@ -95,6 +118,8 @@
 <body>
 <div class="container">
 
+    <div class="back-btn" onclick="goBack()">← Back</div>
+
     <h1>UNANIMOUS!</h1>
 
     <a class="btn">LOAD GAME</a>
@@ -105,13 +130,13 @@
     <div class="panel">
         <div class="panel-title">Question</div>
 
-        <div class="question">
+        <div id="questionText" class="question">
             WHICH OF THESE CELEBRITIES IS MOST LIKELY TO SHARE A JUNGLE ADVENTURE BASED ON THEIR INSTAGRAM PAGE?
         </div>
 
         <div class="status-row">
-            <div>00:42</div>
-            <div>0/24 VOTED</div>
+            <div id="timer">00:42</div>
+            <div id="votes">0/24 VOTED</div>
         </div>
     </div>
 
@@ -126,6 +151,53 @@
     </div>
 
 </div>
+
+<script>
+/* BACK BUTTON */
+function goBack() {
+    window.location.href = "https://vutkin2-lgtm.github.io/vutkin2/index.html";
+}
+
+/* COUNTDOWN TIMER */
+let timeLeft = 42;
+const timerEl = document.getElementById("timer");
+
+function updateTimer() {
+    if (timeLeft > 0) {
+        timeLeft--;
+        let m = "00";
+        let s = timeLeft < 10 ? "0" + timeLeft : timeLeft;
+        timerEl.textContent = `${m}:${s}`;
+    }
+}
+setInterval(updateTimer, 1000);
+
+/* VOTE COUNTER ANIMATION */
+let votes = 0;
+const voteEl = document.getElementById("votes");
+
+function addVote() {
+    if (votes < 24) {
+        votes++;
+        voteEl.textContent = `${votes}/24 VOTED`;
+    }
+}
+
+/* Example: simulate votes coming in */
+setInterval(addVote, 1500);
+
+/* DYNAMIC QUESTION LOADING (placeholder for future expansion) */
+const questions = [
+    "WHICH CELEBRITY WOULD SURVIVE A ZOMBIE APOCALYPSE?",
+    "WHO IS MOST LIKELY TO START A TECH COMPANY?",
+    "WHO WOULD MAKE THE BEST REALITY TV STAR?"
+];
+
+function loadRandomQuestion() {
+    const q = questions[Math.floor(Math.random() * questions.length)];
+    document.getElementById("questionText").textContent = q;
+}
+</script>
+
 </body>
 </html>
-
