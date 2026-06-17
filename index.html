@@ -1,283 +1,56 @@
-<!DOCTYPE html><html class="dark" lang="en" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>UNANIMOUS! - Core Game Loop</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unanimous App</title>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-        }
-        .neon-glow-gold {
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
-        }
-        .neon-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.05); }
-        }
-        .glitch-hover:hover {
-            animation: glitch 0.15s cubic-bezier(.25,.46,.45,.94) both infinite;
-        }
-        @keyframes glitch {
-            0% { transform: translate(0); text-shadow: -2px 0 #FFD700, 2px 0 #39FF14; }
-            25% { transform: translate(-1px, 1px); }
-            50% { transform: translate(1px, -1px); }
-            75% { transform: translate(-1px, -1px); }
-            100% { transform: translate(0); }
-        }
-        body {
-            background-color: #000000;
-            overflow-x: hidden;
-            color: #e4e1e6;
-        }
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.15;
-            pointer-events: none;
-        }
-    </style>
-<script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "surface-bright": "#39393c",
-                      "primary-fixed-dim": "#e9c400",
-                      "on-primary-container": "#705e00",
-                      "on-error-container": "#ffdad6",
-                      "outline-variant": "#4d4732",
-                      "secondary-fixed-dim": "#2ae500",
-                      "outline": "#999077",
-                      "on-error": "#690005",
-                      "on-surface": "#e4e1e6",
-                      "background": "#131316",
-                      "primary-fixed": "#ffe16d",
-                      "on-primary": "#3a3000",
-                      "secondary": "#d7ffc5",
-                      "neon-gold": "#FFD700",
-                      "tertiary-container": "#00f1ff",
-                      "surface": "#131316",
-                      "secondary-fixed": "#79ff5b",
-                      "on-tertiary-fixed-variant": "#004f54",
-                      "on-secondary": "#053900",
-                      "inverse-primary": "#705d00",
-                      "secondary-container": "#2ff801",
-                      "on-secondary-fixed": "#022100",
-                      "surface-container-lowest": "#0e0e11",
-                      "system-gray": "#D1D5DB",
-                      "on-primary-fixed": "#221b00",
-                      "tertiary-fixed": "#79f5ff",
-                      "surface-tint": "#e9c400",
-                      "error-container": "#93000a",
-                      "inverse-on-surface": "#303033",
-                      "on-secondary-fixed-variant": "#095300",
-                      "error": "#ffb4ab",
-                      "surface-container-highest": "#353438",
-                      "on-background": "#e4e1e6",
-                      "on-tertiary-fixed": "#002022",
-                      "bright-yellow": "#FFFF00",
-                      "surface-container-high": "#2a2a2d",
-                      "surface-container": "#1f1f22",
-                      "primary-container": "#ffd700",
-                      "on-tertiary-container": "#006a70",
-                      "tertiary-fixed-dim": "#00dbe8",
-                      "on-secondary-container": "#0f6d00",
-                      "on-primary-fixed-variant": "#544600",
-                      "inverse-surface": "#e4e1e6",
-                      "tertiary": "#defcff",
-                      "surface-container-low": "#1b1b1e",
-                      "electric-lime": "#39FF14",
-                      "primary": "#fff6df",
-                      "surface-dim": "#131316",
-                      "pitch-black": "#000000",
-                      "on-tertiary": "#00363a",
-                      "glass-border": "rgba(255, 255, 255, 0.1)",
-                      "surface-variant": "#353438",
-                      "on-surface-variant": "#d0c6ab"
-              },
-              "fontFamily": {
-                      "headline-lg": ["Sora"],
-                      "headline-md": ["Sora"],
-                      "body-md": ["Sora"],
-                      "label-caps": ["Sora"],
-                      "data-label": ["JetBrains Mono"],
-                      "data-display": ["JetBrains Mono"],
-                      "body-lg": ["Sora"]
-              },
-            },
-          },
-        }
-    </script>
-<style>
-        body {
-            min-height: max(884px, 100dvh);
-        }
-    </style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #0d0d0d;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #f7d000;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 42px;
+        font-weight: 900;
+        margin-bottom: 60px;
+        letter-spacing: 2px;
+    }
+
+    .btn {
+        width: 220px;
+        padding: 18px 0;
+        margin: 15px 0;
+        border: 3px solid #f7d000;
+        border-radius: 10px;
+        color: #f7d000;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+        display: block;
+    }
+
+    .btn:active {
+        background: #f7d000;
+        color: #000;
+    }
+</style>
 </head>
-<body class="font-body-md bg-pitch-black min-h-screen flex flex-col">
-<!-- WebGL Background Placeholder Canvas -->
-<canvas height="0" id="bg-canvas" width="0"></canvas>
-<!-- TopAppBar -->
-<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 bg-pitch-black dark:bg-pitch-black border-b border-glass-border shadow-[0_0_15px_rgba(255,215,0,0.1)]"><div class="absolute -top-6 left-0 w-full text-center"><span class="bg-neon-gold text-pitch-black font-data-label text-[10px] px-2 py-0.5 rounded-b uppercase tracking-widest">EXPORT AS: core_loop.html</span></div>
-<div class="flex items-center gap-4">
-<span class="material-symbols-outlined text-primary-container cursor-pointer active:scale-95 transition-transform">menu</span>
-<h1 class="font-headline-md text-headline-md font-black tracking-tighter text-primary-container drop-shadow-[0_0_8px_rgba(255,215,0,0.6)]">UNANIMOUS!</h1>
-</div>
-<div class="flex items-center gap-4">
-<span class="material-symbols-outlined text-primary-container cursor-pointer hover:text-primary-fixed transition-colors active:scale-95">account_circle</span>
-</div>
-</header>
-<!-- Main Canvas -->
-<main class="relative z-10 flex-grow flex flex-col items-center justify-center pt-24 pb-32 px-margin-mobile">
-<!-- Live Status Dashboard -->
-<div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-gutter mb-12">
-<!-- Active Players -->
-<div class="glass-panel border border-glass-border p-6 flex flex-col items-center justify-center text-center">
-<span class="font-label-caps text-label-caps text-on-surface-variant mb-2">ACTIVE INSTANCES</span>
-<div class="flex items-baseline gap-2">
-<span class="font-data-display text-[32px] text-electric-lime">14.2k</span>
-<div class="w-2 h-2 rounded-full bg-electric-lime neon-pulse"></div>
-</div>
-<span class="font-data-label text-data-label text-on-surface-variant mt-1">REAL-TIME SYNC</span>
-</div>
-<!-- Prize Pool -->
-<div class="glass-panel border border-glass-border p-6 flex flex-col items-center justify-center text-center relative overflow-hidden">
-<div class="absolute top-0 left-0 w-full h-1 bg-neon-gold/30"></div>
-<span class="font-label-caps text-label-caps text-neon-gold mb-2">CURRENT POT</span>
-<span class="font-data-display text-[40px] text-neon-gold font-bold tracking-tight" style="transform: translateX(0px);">$50,000</span>
-<span class="font-data-label text-data-label text-on-surface-variant mt-1">LOCKED ASSETS</span>
-</div>
-<!-- System Ping -->
-<div class="glass-panel border border-glass-border p-6 flex flex-col items-center justify-center text-center">
-<span class="font-label-caps text-label-caps text-on-surface-variant mb-2">NEURAL LATENCY</span>
-<span class="font-data-display text-[32px] text-on-surface">24<span class="text-on-surface-variant text-lg">ms</span></span>
-<span class="font-data-label text-data-label text-on-surface-variant mt-1">GATEWAY: OLYMPUS-7</span>
-</div>
-</div>
-<!-- Hero Content / Action Zone -->
-<div class="flex flex-col items-center space-y-10 text-center">
-<div class="space-y-4 max-w-2xl">
-<h2 class="font-headline-lg text-4xl md:text-6xl font-extrabold uppercase tracking-tighter text-on-surface drop-shadow-[0_0_20px_rgba(255,215,0,0.3)]">
-                    The Void <span class="text-neon-gold drop-shadow-[0_0_12px_rgba(255,215,0,0.6)]">Awaits</span>
-</h2>
-<p class="font-body-lg text-body-lg text-on-surface-variant px-4">
-                    High-stakes social deduction in the neural net. One wrong consensus ends the cycle. Are you in sync?
-                </p>
-</div>
-<div class="flex flex-col md:flex-row gap-6 w-full max-w-md">
-<!-- Main Button: Enter Arena -->
-<button class="flex-1 group relative px-10 py-5 bg-pitch-black border-[3px] border-neon-gold font-headline-md text-neon-gold uppercase tracking-widest glitch-hover transition-all duration-300 hover:neon-glow-gold active:scale-95" onclick="location.href='player_join.html'">
-<span class="relative z-10">Enter Arena</span>
-<div class="absolute inset-0 bg-neon-gold opacity-0 group-hover:opacity-10 transition-opacity"></div>
-</button>
-<!-- Secondary Button: Practice -->
-<button class="flex-1 px-10 py-5 border border-on-surface-variant/30 font-label-caps text-label-caps text-on-surface uppercase tracking-widest hover:bg-on-surface-variant/10 transition-all duration-200 active:scale-95" onclick="location.href='practice_range.html'">
-                    Practice Range
-                </button>
-</div>
-<!-- Subtle Technical Detail -->
-<div class="pt-8 flex flex-col items-center opacity-40">
-<div class="w-px h-16 bg-gradient-to-b from-neon-gold to-transparent mb-4"></div>
-<p class="font-data-label text-data-label uppercase tracking-widest">Protocol V.9.4 // Core Loaded</p>
-</div>
-</div>
-</main>
-<!-- BottomNavBar -->
-<nav class="fixed bottom-0 left-0 w-full z-50 h-20 bg-pitch-black/90 backdrop-blur-md flex justify-around items-center border-t border-glass-border">
-<!-- Home (Active) -->
-<a class="flex flex-col items-center justify-center text-primary-container drop-shadow-[0_0_5px_rgba(255,215,0,0.8)] font-bold active:scale-95 transition-transform duration-150" href="index.html">
-<span class="material-symbols-outlined mb-1">home</span>
-<span class="font-label-caps text-[10px] tracking-wider">Home</span>
-</a>
-<!-- Rooms -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 active:scale-95 transition-all duration-150" href="mgmt_sims.html">
-<span class="material-symbols-outlined mb-1">grid_view</span>
-<span class="font-label-caps text-[10px] tracking-wider">Rooms</span>
-</a>
-<!-- History -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 active:scale-95 transition-all duration-150" href="#">
-<span class="material-symbols-outlined mb-1">history</span>
-<span class="font-label-caps text-[10px] tracking-wider">History</span>
-</a>
-<!-- Settings -->
-<a class="flex flex-col items-center justify-center text-on-surface-variant opacity-50 hover:opacity-100 active:scale-95 transition-all duration-150" href="#">
-<span class="material-symbols-outlined mb-1">settings</span>
-<span class="font-label-caps text-[10px] tracking-wider">Settings</span>
-</a>
-</nav>
-<!-- Interactive Micro-Interactions & Background Shader -->
-<script>
-        // Background Shader Logic (Simplified Animated Grid/Stars)
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
+<body>
 
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
+    <h1>UNANIMOUS! #1</h1>
 
-        const dots = Array.from({length: 100}, () => ({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            size: Math.random() * 2
-        }));
+    <a href="#" class="btn">HOST</a>
+    <a href="#" class="btn">PLAYER</a>
 
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = '#FFD700';
-            dots.forEach(dot => {
-                dot.x += dot.vx;
-                dot.y += dot.vy;
-                if(dot.x < 0) dot.x = width;
-                if(dot.x > width) dot.x = 0;
-                if(dot.y < 0) dot.y = height;
-                if(dot.y > height) dot.y = 0;
-                ctx.beginPath();
-                ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // Button interaction logic
-        document.querySelectorAll('button, a').forEach(btn => {
-            btn.addEventListener('mouseenter', () => {
-                // Potential haptic or sound feedback logic
-            });
-        });
-
-        // Add random "glitch" flickers to the dash values
-        setInterval(() => {
-            const prize = document.querySelector('.font-data-display.text-neon-gold');
-            if(prize && Math.random() > 0.95) {
-                prize.style.transform = 'translateX(' + (Math.random() * 4 - 2) + 'px)';
-                setTimeout(() => prize.style.transform = 'translateX(0)', 50);
-            }
-        }, 1000);
-    </script>
-
-
-
-
-</body></html>
+</body>
+</html>
