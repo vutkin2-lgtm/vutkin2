@@ -1,7 +1,6 @@
 {
   "current_topic": "Funny Doctors",
   "current_question_index": 0,
-
   "questions": [
     {
       "topic": "Funny Doctors",
@@ -21,7 +20,6 @@
         "The doctor wants to borrow money"
       ]
     },
-
     {
       "topic": "Funny Doctors",
       "question": "Why did the doctor bring a red pen to work?",
@@ -40,7 +38,6 @@
         "To match their scrubs"
       ]
     },
-
     {
       "topic": "Funny Doctors",
       "question": "A patient says, 'Doctor, I feel like a pair of curtains.' What does the doctor reply?",
@@ -59,5 +56,6 @@
         "Try opening up"
       ]
     }
-  ]
+  ],
+  "is_game_in_progress": true
 }
