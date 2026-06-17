@@ -28,6 +28,16 @@
         text-align: center;
     }
 
+    /* HOME ICON */
+    .home-icon {
+        font-size: 28px;
+        cursor: pointer;
+        color: white;
+        text-align: left;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
     h1 {
         font-size: 36px;
         font-weight: 900;
@@ -51,16 +61,6 @@
     .btn:hover {
         box-shadow: 0 0 12px #f7d000;
         transform: scale(1.03);
-    }
-
-    /* BACK BUTTON */
-    .back-btn {
-        text-align: left;
-        margin-bottom: 10px;
-        font-size: 18px;
-        cursor: pointer;
-        color: #ffffff;
-        text-decoration: underline;
     }
 
     /* QUESTION PANEL */
@@ -96,8 +96,22 @@
         justify-content: space-between;
         font-size: 18px;
         margin-bottom: 10px;
-        color: #ffffff;
     }
+
+    /* TIMER COLORS */
+    .timer-green { color: #00ff00; }
+    .timer-yellow { color: #ffff00; }
+    .timer-red { color: #ff0000; }
+
+    @keyframes blink {
+        50% { opacity: 0; }
+    }
+    .blink { animation: blink 1s infinite; }
+
+    /* VOTE COLORS */
+    .vote-red { color: #ff0000; }
+    .vote-yellow { color: #ffff00; }
+    .vote-green { color: #00ff00; }
 
     /* STANDINGS */
     .standings {
@@ -118,7 +132,8 @@
 <body>
 <div class="container">
 
-    <div class="back-btn" onclick="goBack()">← Back</div>
+    <!-- HOME ICON -->
+    <div class="home-icon" onclick="goHome()">🏠</div>
 
     <h1>UNANIMOUS!</h1>
 
@@ -135,8 +150,8 @@
         </div>
 
         <div class="status-row">
-            <div id="timer">00:42</div>
-            <div id="votes">0/24 VOTED</div>
+            <div id="timer" class="timer-green">00:42</div>
+            <div id="votes" class="vote-red">0/24 VOTED</div>
         </div>
     </div>
 
@@ -153,50 +168,65 @@
 </div>
 
 <script>
-/* BACK BUTTON */
-function goBack() {
+/* HOME ICON */
+function goHome() {
     window.location.href = "https://vutkin2-lgtm.github.io/vutkin2/index.html";
 }
 
 /* COUNTDOWN TIMER */
-let timeLeft = 42;
+let totalTime = 42;
+let timeLeft = totalTime;
 const timerEl = document.getElementById("timer");
 
 function updateTimer() {
     if (timeLeft > 0) {
         timeLeft--;
+
         let m = "00";
         let s = timeLeft < 10 ? "0" + timeLeft : timeLeft;
         timerEl.textContent = `${m}:${s}`;
+
+        let fraction = timeLeft / totalTime;
+
+        timerEl.classList.remove("timer-green", "timer-yellow", "timer-red", "blink");
+
+        if (fraction > 2/3) {
+            timerEl.classList.add("timer-green");
+        } else if (fraction > 1/3) {
+            timerEl.classList.add("timer-yellow");
+        } else {
+            timerEl.classList.add("timer-red", "blink");
+        }
     }
 }
 setInterval(updateTimer, 1000);
 
-/* VOTE COUNTER ANIMATION */
+/* VOTE COUNTER COLOR PROGRESSION */
 let votes = 0;
+const maxVotes = 24;
 const voteEl = document.getElementById("votes");
 
-function addVote() {
-    if (votes < 24) {
+function updateVotes() {
+    if (votes < maxVotes) {
         votes++;
-        voteEl.textContent = `${votes}/24 VOTED`;
+        voteEl.textContent = `${votes}/${maxVotes} VOTED`;
+
+        let fraction = votes / maxVotes;
+
+        voteEl.classList.remove("vote-red", "vote-yellow", "vote-green");
+
+        if (fraction < 1/3) {
+            voteEl.classList.add("vote-red");
+        } else if (fraction < 2/3) {
+            voteEl.classList.add("vote-yellow");
+        } else {
+            voteEl.classList.add("vote-green");
+        }
     }
 }
 
-/* Example: simulate votes coming in */
-setInterval(addVote, 1500);
-
-/* DYNAMIC QUESTION LOADING (placeholder for future expansion) */
-const questions = [
-    "WHICH CELEBRITY WOULD SURVIVE A ZOMBIE APOCALYPSE?",
-    "WHO IS MOST LIKELY TO START A TECH COMPANY?",
-    "WHO WOULD MAKE THE BEST REALITY TV STAR?"
-];
-
-function loadRandomQuestion() {
-    const q = questions[Math.floor(Math.random() * questions.length)];
-    document.getElementById("questionText").textContent = q;
-}
+/* Simulate votes coming in */
+setInterval(updateVotes, 1500);
 </script>
 
 </body>
