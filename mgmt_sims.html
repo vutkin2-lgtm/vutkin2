@@ -151,7 +151,7 @@
 
     <h1>UNANIMOUS!</h1>
 
-    <a class="btn">LOAD GAME</a>
+    <a class="btn" onclick="nextQuestion()">LOAD GAME</a>
     <a class="btn">START GAME</a>
     <a class="btn">CONNECT TO DISPLAY</a>
     <a class="btn">CREATE TEAM</a>
@@ -160,7 +160,7 @@
         <div class="panel-title">Question</div>
 
         <div id="questionText" class="question">
-            WHICH OF THESE CELEBRITIES IS MOST LIKELY TO SHARE A JUNGLE ADVENTURE BASED ON THEIR INSTAGRAM PAGE?
+            Loading question...
         </div>
 
         <div class="status-row">
@@ -186,7 +186,62 @@ function goHome() {
     window.location.href = "https://vutkin2-lgtm.github.io/vutkin2/index.html";
 }
 
-/* COUNTDOWN TIMER */
+/* ---------------------------
+   JSON DATABASE LOADING
+---------------------------- */
+
+let gameState = {};
+let questions = [];
+let currentTopic = "";
+let currentIndex = 0;
+let currentPoints = { correct: 0, wrong: 0, maybe: 0 };
+
+fetch("game_state.json")
+  .then(res => res.json())
+  .then(data => {
+      gameState = data;
+      currentTopic = data.current_topic;
+      questions = data.questions;
+      currentIndex = data.current_question_index;
+
+      console.log("Loaded topic:", currentTopic);
+      console.log("Loaded questions:", questions);
+
+      loadCurrentQuestion();
+  });
+
+function loadCurrentQuestion() {
+    const q = questions[currentIndex];
+    if (!q) return;
+
+    document.getElementById("questionText").textContent = q.question;
+
+    timeLeft = q.timer_seconds;
+    currentPoints = q.points;
+
+    console.log("Current question:", q);
+}
+
+/* ---------------------------
+   NEXT QUESTION BUTTON
+---------------------------- */
+
+function nextQuestion() {
+    if (!questions || questions.length === 0) return;
+
+    currentIndex++;
+
+    if (currentIndex >= questions.length) {
+        currentIndex = 0;
+    }
+
+    loadCurrentQuestion();
+}
+
+/* ---------------------------
+   TIMER LOGIC
+---------------------------- */
+
 let totalTime = 42;
 let timeLeft = totalTime;
 const timerEl = document.getElementById("timer");
@@ -214,7 +269,10 @@ function updateTimer() {
 }
 setInterval(updateTimer, 1000);
 
-/* VOTE COUNTER COLOR PROGRESSION */
+/* ---------------------------
+   VOTE COUNTER SIMULATION
+---------------------------- */
+
 let votes = 0;
 const maxVotes = 24;
 const voteEl = document.getElementById("votes");
