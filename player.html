@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unanimous Player</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<style>
+body{margin:0;padding:0;background:#0d0d0d;font-family:Arial,sans-serif;color:#f7d000;text-align:center}
+.container{max-width:420px;margin:auto;padding:20px}
+h1{font-size:32px;font-weight:900;margin-bottom:20px}
+input,select{width:100%;padding:14px;font-size:18px;margin:12px 0;background:#222;color:#f7d000;border:2px solid #f7d000;border-radius:8px}
+.btn{width:100%;padding:18px 0;margin:12px 0;border:3px solid #f7d000;border-radius:10px;color:#f7d000;font-size:24px;font-weight:bold;text-decoration:none;display:block;cursor:pointer}
+.btn:active{background:#f7d000;color:#000}
+.btn-disabled{opacity:.4;pointer-events:none}
+.panel{border:3px solid #f7d000;border-radius:10px;padding:20px;margin-top:25px;text-align:left}
+.label{font-size:18px;color:#f7d000;margin-bottom:6px}
+.question{font-size:20px;color:#fff;margin-bottom:10px}
+.timer{font-size:28px;font-weight:bold;margin-top:20px}
+.timer-green{color:#0f0}
+.timer-yellow{color:#ff0}
+.timer-red{color:#f00}
+.message{margin-top:12px;font-size:18px}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>UNANIMOUS!</h1>
+
+    <div id="joinSection">
+        <input id="playerName" placeholder="Enter your name">
+        <select id="teamDropdown"></select>
+        <a class="btn" onclick="joinGame()">JOIN GAME</a>
+    </div>
+
+    <div id="gameSection" style="display:none;">
+        <h2 id="teamLabel"></h2>
+
+        <div class="panel">
+            <div class="label">Topic</div>
+            <div id="topicText" class="question"></div>
+
+            <div class="label">Question</div>
+            <div id="questionText" class="question"></div>
+
+            <div id="timer" class="timer timer-green">00:30</div>
+        </div>
+
+        <a id="btnYes" class="btn" onclick="sendVote('yes')">YES</a>
+        <a id="btnNo" class="btn" onclick="sendVote('no')">NO</a>
+
+        <div id="statusMessage" class="message"></div>
+    </div>
+
+    <!-- Sounds (you need to provide these files in /sounds/) -->
+    <audio id="soundApplause" src="sounds/applause.mp3"></audio>
+    <audio id="soundGroan" src="sounds/groan.mp3"></audio>
+
+</div>
+
+<script>
+const REPO_OWNER="vutkin2-lgtm";
+const REPO_NAME="vutkin2";
+const FILE_GAME="game_state.json";
+const FILE_TEAMS="teams.json";
+const FILE_VOTES="votes.json";
+
+let playerName="";
+let playerTeam="";
+let hasVoted=false;
+
+/* Fetch helper */
+async function fetchJson(path){
+    const url=`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${path}?t=${Date.now()}`;
+    const res=await fetch(url);
+    if(!res.ok) throw new Error("HTTP "+res.status+" for "+path);
+    return await res.json();
+}
+
+/* Load teams into dropdown */
+async function loadTeams(){
+    try{
+        const data=await fetchJson(FILE_TEAMS);
+        const dd=document.getElementById("teamDropdown");
+        dd.innerHTML="";
+        if(!Array.isArray(data.teams) || data.teams.length===0){
+            const opt=document.createElement("option");
+            opt.value="";
+            opt.textContent="No teams yet";
+            dd.appendChild(opt);
+            dd.disabled=true;
+            return;
+        }
+        data.teams.forEach(t=>{
+            const opt=document.createElement("option");
+            opt.value=t.name;
+            opt.textContent=t.name;
+            dd.appendChild(opt);
+        });
+    }catch(e){
+        console.error("Error loading teams",e);
+    }
+}
+
+/* Player joins */
+function joinGame(){
+    playerName=document.getElementById("playerName").value.trim();
+    playerTeam=document.getElementById("teamDropdown").value;
+
+    if(!playerName){
+        alert("Enter your name");
+        return;
+    }
+    if(!playerTeam){
+        alert("Select a team");
+        return;
+    }
+
+    document.getElementById("joinSection").style.display="none";
+    document.getElementById("gameSection").style.display="block";
+    document.getElementById("teamLabel").textContent="Player: "+playerName+" | Team: "+playerTeam;
+
+    startPolling();
+}
+
+/* Poll game state every 1.5 seconds */
+function startPolling(){
+    updateScreen();
+    setInterval(updateScreen,1500);
+}
+
+/* Update topic + question + timer */
+let lastTime=30;
+async function updateScreen(){
+    try{
+        const game=await fetchJson(FILE_GAME);
+
+        if(!game.is_game_in_progress){
+            document.getElementById("topicText").textContent="Waiting for host...";
+            document.getElementById("questionText").textContent="";
+            document.getElementById("timer").textContent="00:30";
+            return;
+        }
+
+        const topic=game.current_topic;
+        const index=game.current_question_index;
+        const questions=game.questions.filter(q=>q.topic===topic);
+        const q=questions[index];
+
+        document.getElementById("topicText").textContent=topic;
+        document.getElementById("questionText").textContent=q.question;
+
+        // simple visual countdown (not authoritative)
+        if(lastTime<=0) lastTime=q.timer_seconds||30;
+        updateTimer(q.timer_seconds||30);
+    }catch(e){
+        console.error("Error updating screen",e);
+    }
+}
+
+/* Timer display only */
+function updateTimer(total){
+    if(lastTime>0) lastTime--;
+    const t=lastTime<10?"0"+lastTime:lastTime;
+    const el=document.getElementById("timer");
+    el.textContent="00:"+t;
+
+    el.className="timer";
+    if(lastTime>total*0.66) el.classList.add("timer-green");
+    else if(lastTime>total*0.33) el.classList.add("timer-yellow");
+    else el.classList.add("timer-red");
+}
+
+/* Disable vote buttons */
+function disableButtons(){
+    document.getElementById("btnYes").classList.add("btn-disabled");
+    document.getElementById("btnNo").classList.add("btn-disabled");
+}
+
+/* Play feedback sound based on correctness */
+async function playFeedbackSound(choice){
+    try{
+        const game=await fetchJson(FILE_GAME);
+        const topic=game.current_topic;
+        const index=game.current_question_index;
+        const questions=game.questions.filter(q=>q.topic===topic);
+        const q=questions[index];
+        const correct=q.correct_answer;
+
+        const applause=document.getElementById("soundApplause");
+        const groan=document.getElementById("soundGroan");
+        const msg=document.getElementById("statusMessage");
+
+        if(choice===correct){
+            msg.textContent="Correct!";
+            applause.currentTime=0;
+            applause.play().catch(()=>{});
+        }else{
+            msg.textContent="Wrong!";
+            groan.currentTime=0;
+            groan.play().catch(()=>{});
+        }
+    }catch(e){
+        console.error("Error playing feedback sound",e);
+    }
+}
+
+/* Send vote to GitHub */
+async function sendVote(choice){
+    if(hasVoted) return;
+    hasVoted=true;
+    disableButtons();
+    document.getElementById("statusMessage").textContent="Vote submitted.";
+
+    try{
+        const game=await fetchJson(FILE_GAME);
+        const topic=game.current_topic;
+        const index=game.current_question_index;
+        const questions=game.questions.filter(q=>q.topic===topic);
+        const q=questions[index];
+
+        const voteObj={
+            player:playerName,
+            team:playerTeam,
+            question_id:q.id,
+            answer:choice,
+            timestamp:Date.now()
+        };
+
+        // read current votes.json
+        const url=`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_VOTES}`;
+        const current=await fetch(url).then(r=>r.json());
+        let existing={votes:[]};
+        if(current.content){
+            const decoded=decodeURIComponent(escape(atob(current.content)));
+            existing=JSON.parse(decoded);
+        }
+        if(!Array.isArray(existing.votes)) existing.votes=[];
+        existing.votes.push(voteObj);
+
+        const encoded=btoa(unescape(encodeURIComponent(JSON.stringify(existing,null,2))));
+        await fetch(url,{
+            method:"PUT",
+            headers:{
+                "Authorization":`Bearer ${GITHUB_TOKEN}`,
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+                message:"Player vote",
+                content:encoded,
+                sha:current.sha
+            })
+        });
+
+        await playFeedbackSound(choice);
+    }catch(e){
+        console.error("Error sending vote",e);
+        document.getElementById("statusMessage").textContent="Error submitting vote.";
+    }
+}
+
+/* Init */
+loadTeams();
+</script>
+
+</body>
+</html>
