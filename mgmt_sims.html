@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Unanimous Game</title>
+<title>Unanimous Game - Host</title>
 
 <style>
     body {
@@ -12,14 +12,7 @@
         background: #0d0d0d;
         font-family: Arial, sans-serif;
         color: #f7d000;
-        animation: fadeIn 0.8s ease;
     }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
     .container {
         width: 100%;
         max-width: 480px;
@@ -27,8 +20,6 @@
         padding: 20px;
         text-align: center;
     }
-
-    /* HOME ICON — CIRCLE WITH YELLOW BACKGROUND */
     .home-icon {
         width: 42px;
         height: 42px;
@@ -43,14 +34,12 @@
         cursor: pointer;
         margin-bottom: 10px;
     }
-
     h1 {
         font-size: 36px;
         font-weight: 900;
         margin-bottom: 25px;
         letter-spacing: 2px;
     }
-
     .btn {
         border: 3px solid #f7d000;
         padding: 14px 0;
@@ -62,14 +51,18 @@
         color: #f7d000;
         display: block;
         transition: 0.25s;
+        cursor: pointer;
     }
-
     .btn:hover {
         box-shadow: 0 0 12px #f7d000;
         transform: scale(1.03);
     }
-
-    /* QUESTION PANEL */
+    .btn-disabled {
+        opacity: 0.4;
+        cursor: default;
+        box-shadow: none;
+        transform: none;
+    }
     .panel {
         border: 3px solid #f7d000;
         border-radius: 10px;
@@ -78,7 +71,6 @@
         text-align: left;
         position: relative;
     }
-
     .panel-title {
         position: absolute;
         top: -14px;
@@ -89,42 +81,30 @@
         font-weight: bold;
         color: #ffffff;
     }
-
     .question {
         font-size: 18px;
         line-height: 1.4;
         margin-bottom: 15px;
         color: #ffffff;
     }
-
     .status-row {
         display: flex;
         justify-content: space-between;
         font-size: 18px;
         margin-bottom: 10px;
     }
-
-    /* TIMER COLORS + BOLD */
     .timer-green { color: #00ff00; font-weight: bold; }
     .timer-yellow { color: #ffff00; font-weight: bold; }
     .timer-red { color: #ff0000; font-weight: bold; }
-
-    @keyframes blink {
-        50% { opacity: 0; }
-    }
+    @keyframes blink { 50% { opacity: 0; } }
     .blink { animation: blink 1s infinite; }
-
-    /* VOTE COLORS + BOLD */
     .vote-red { color: #ff0000; font-weight: bold; }
     .vote-yellow { color: #ffff00; font-weight: bold; }
     .vote-green { color: #00ff00; font-weight: bold; }
-
-    /* STANDINGS */
     .standings {
         margin-top: 25px;
         text-align: left;
     }
-
     .team {
         display: flex;
         justify-content: space-between;
@@ -132,13 +112,59 @@
         border-bottom: 1px solid #333;
         font-size: 18px;
     }
+    .team span:first-child { color: #ffffff; }
+    .team span:last-child { color: #f7d000; }
 
-    /* TEAM NAME WHITE, SCORE YELLOW */
-    .team span:first-child {
-        color: #ffffff;
+    /* Modals */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.85);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
     }
-    .team span:last-child {
+    .modal-box {
+        background: #111;
+        border: 3px solid #f7d000;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 380px;
+        text-align: center;
+    }
+    select, input {
+        width: 100%;
+        padding: 10px;
+        font-size: 18px;
+        margin-top: 10px;
+        background: #222;
         color: #f7d000;
+        border: 2px solid #f7d000;
+        border-radius: 8px;
+    }
+    .team-list {
+        margin-top: 10px;
+        text-align: left;
+        max-height: 160px;
+        overflow-y: auto;
+    }
+    .team-list-item {
+        padding: 4px 0;
+        border-bottom: 1px solid #333;
+        color: #ffffff;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .delete-btn {
+        cursor: pointer;
+        color: #ff4444;
+        font-size: 20px;
+        margin-right: 8px;
     }
 </style>
 </head>
@@ -146,157 +172,404 @@
 <body>
 <div class="container">
 
-    <!-- HOME ICON -->
     <div class="home-icon" onclick="goHome()">⌂</div>
 
     <h1>UNANIMOUS!</h1>
 
-    <a class="btn" onclick="nextQuestion()">LOAD GAME</a>
-    <a class="btn">START GAME</a>
+    <a id="loadGameBtn" class="btn" onclick="onLoadGameClick()">LOAD GAME</a>
+    <a class="btn" onclick="nextQuestion()">NEXT QUESTION</a>
     <a class="btn">CONNECT TO DISPLAY</a>
-    <a class="btn">CREATE TEAM</a>
+    <a class="btn" onclick="openTeamModal()">CREATE TEAM</a>
 
     <div class="panel">
         <div class="panel-title">Question</div>
 
-        <div id="questionText" class="question">
-            Loading question...
+        <div id="topicText" class="question" style="color:#f7d000; font-weight:bold;">
+            Topic:
         </div>
 
+        <div id="questionText" class="question"></div>
+
         <div class="status-row">
-            <div id="timer" class="timer-green">00:42</div>
-            <div id="votes" class="vote-red">0/24 VOTED</div>
+            <div id="timer" class="timer-green">00:30</div>
+            <div id="votes" class="vote-red">0/3 VOTED</div>
         </div>
     </div>
 
-    <div class="standings">
+    <div class="standings" id="standings">
         <h2 style="font-size:24px; margin-bottom:10px;">LIVE STANDINGS</h2>
-
-        <div class="team"><span>CYBER PUNKS</span><span>2,170</span></div>
-        <div class="team"><span>GOLDEN EAGLES</span><span>1,588</span></div>
-        <div class="team"><span>VOID RUNNERS</span><span>1,931</span></div>
-        <div class="team"><span>NEON NOVICES</span><span>1,289</span></div>
-        <div class="team"><span>ALPHA SQUAD</span><span>1,370</span></div>
+        <div class="team"><span>Team 1</span><span>0</span></div>
+        <div class="team"><span>Team 2</span><span>0</span></div>
+        <div class="team"><span>Team 3</span><span>0</span></div>
     </div>
 
 </div>
+
+<!-- Topic selection modal -->
+<div id="topicModal" class="modal">
+    <div class="modal-box">
+        <h2>Select Topic</h2>
+        <select id="topicDropdown"></select>
+        <a class="btn" onclick="confirmTopic()">START</a>
+    </div>
+</div>
+
+<!-- Team creation modal -->
+<div id="teamModal" class="modal">
+    <div class="modal-box">
+        <h2>Create Teams</h2>
+        <input id="teamNameInput" type="text" placeholder="Enter team name">
+        <a class="btn" onclick="addTeam()">ADD TEAM</a>
+        <div class="team-list" id="teamList"></div>
+        <a class="btn" onclick="saveTeams()">SAVE TEAMS</a>
+    </div>
+</div>
+
+<script src="token.js"></script>
 
 <script>
 function goHome() {
     window.location.href = "https://vutkin2-lgtm.github.io/vutkin2/index.html";
 }
 
-/* ---------------------------
-   JSON DATABASE LOADING
----------------------------- */
-
+/* GLOBALS */
 let gameState = {};
-let questions = [];
-let currentTopic = "";
 let currentIndex = 0;
-let currentPoints = { correct: 0, wrong: 0, maybe: 0 };
 
-fetch("game_state.json")
-  .then(res => res.json())
-  .then(data => {
-      gameState = data;
-      currentTopic = data.current_topic;
-      questions = data.questions;
-      currentIndex = data.current_question_index;
+let votes = 0;
+let teamCount = 0;
+let maxVotes = 0;
+let allVoted = false;
 
-      console.log("Loaded topic:", currentTopic);
-      console.log("Loaded questions:", questions);
+let voteInterval = null;
+let timerInterval = null;
 
-      loadCurrentQuestion();
-  });
+let totalTime = 30;
+let timeLeft = 30;
 
-function loadCurrentQuestion() {
-    const q = questions[currentIndex];
-    if (!q) return;
+const timerEl = document.getElementById("timer");
+const voteEl = document.getElementById("votes");
+const topicEl = document.getElementById("topicText");
+const questionEl = document.getElementById("questionText");
+const loadGameBtn = document.getElementById("loadGameBtn");
+const standingsEl = document.getElementById("standings");
 
-    document.getElementById("questionText").textContent = q.question;
+const REPO_OWNER = "vutkin2-lgtm";
+const REPO_NAME = "vutkin2";
+const FILE_GAME = "game_state.json";
+const FILE_TEAMS = "teams.json";
 
-    timeLeft = q.timer_seconds;
-    currentPoints = q.points;
-
-    console.log("Current question:", q);
+/* FETCH HELPERS */
+async function fetchJsonRaw(path) {
+    const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${path}?t=${Date.now()}`;
+    const res = await fetch(url);
+    return await res.json();
 }
 
-/* ---------------------------
-   NEXT QUESTION BUTTON
----------------------------- */
+async function writeJsonToGithub(path, newData, commitMessage) {
+    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
+    const current = await fetch(url).then(r => r.json());
 
-function nextQuestion() {
-    if (!questions || questions.length === 0) return;
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2))));
+    const body = {
+        message: commitMessage,
+        content: encoded,
+        sha: current.sha
+    };
 
-    currentIndex++;
+    return await fetch(url, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${GITHUB_TOKEN}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    });
+}
 
-    if (currentIndex >= questions.length) {
-        currentIndex = 0;
+/* GAME STATE */
+async function fetchGameState() {
+    return await fetchJsonRaw(FILE_GAME);
+}
+
+async function updateGameState(newState) {
+    return await writeJsonToGithub(FILE_GAME, newState, "Update game state");
+}
+
+/* TEAMS */
+let teamsLocal = [];
+
+async function loadTeams() {
+    try {
+        const data = await fetchJsonRaw(FILE_TEAMS);
+
+        teamsLocal = Array.isArray(data.teams) ? data.teams : [];
+        teamCount = Number(data.team_count) || teamsLocal.length;
+        maxVotes = teamCount;
+
+        votes = 0;
+        voteEl.textContent = `0/${teamCount} VOTED`;
+
+        let html = `<h2 style="font-size:24px; margin-bottom:10px;">LIVE STANDINGS</h2>`;
+
+        if (teamsLocal.length === 0) {
+            html += `<div style="color:#888;">No teams created yet.</div>`;
+        } else {
+            teamsLocal.forEach(t => {
+                html += `<div class="team"><span>${t.name}</span><span>${t.score ?? 0}</span></div>`;
+            });
+        }
+
+        standingsEl.innerHTML = html;
+
+    } catch (e) {
+        console.error("Error loading teams.json", e);
+        teamsLocal = [];
+        teamCount = 0;
+        voteEl.textContent = `0/0 VOTED`;
     }
+}
+
+function openTeamModal() {
+    document.getElementById("teamModal").style.display = "flex";
+    renderTeamList();
+}
+
+function addTeam() {
+    const input = document.getElementById("teamNameInput");
+    const name = input.value.trim();
+    if (!name) return;
+
+    if (teamsLocal.some(t => t.name.toLowerCase() === name.toLowerCase())) {
+        alert("Team name already exists.");
+        return;
+    }
+
+    const nextId = teamsLocal.length > 0 ? Math.max(...teamsLocal.map(t => t.id)) + 1 : 1;
+    teamsLocal.push({ id: nextId, name: name, score: 0 });
+
+    input.value = "";
+    renderTeamList();
+}
+
+function deleteTeam(id) {
+    teamsLocal = teamsLocal.filter(t => t.id !== id);
+    renderTeamList();
+}
+
+function renderTeamList() {
+    const listEl = document.getElementById("teamList");
+    if (teamsLocal.length === 0) {
+        listEl.innerHTML = "<div style='color:#888;'>No teams yet.</div>";
+        return;
+    }
+    let html = "";
+    teamsLocal.forEach(t => {
+        html += `
+            <div class="team-list-item">
+                <span class="delete-btn" onclick="deleteTeam(${t.id})">🗑️</span>
+                #${t.id} - ${t.name}
+            </div>`;
+    });
+    listEl.innerHTML = html;
+}
+
+async function saveTeams() {
+    const data = {
+        teams: teamsLocal,
+        team_count: teamsLocal.length
+    };
+    try {
+        await writeJsonToGithub(FILE_TEAMS, data, "Update teams");
+
+        document.getElementById("teamModal").style.display = "none";
+
+        await loadTeams();
+
+        location.reload();
+
+    } catch (e) {
+        console.error("Error saving teams.json", e);
+        alert("Failed to save teams to GitHub.");
+    }
+}
+
+/* LOAD GAME */
+async function onLoadGameClick() {
+    await loadTeams();
+
+    if (teamCount < 1) {
+        alert("Create at least one team first.");
+        return;
+    }
+
+    gameState = await fetchGameState();
+
+    if (gameState.is_game_in_progress) {
+        alert("Game already in progress. Finish all questions first.");
+        return;
+    }
+
+    const topicsSet = new Set(gameState.questions.map(q => q.topic));
+    const dropdown = document.getElementById("topicDropdown");
+    dropdown.innerHTML = "";
+    topicsSet.forEach(t => {
+        const opt = document.createElement("option");
+        opt.value = t;
+        opt.textContent = t;
+        dropdown.appendChild(opt);
+    });
+
+    document.getElementById("topicModal").style.display = "flex";
+}
+
+async function confirmTopic() {
+    const selectedTopic = document.getElementById("topicDropdown").value;
+    if (!selectedTopic) return;
+
+    gameState.current_topic = selectedTopic;
+    gameState.current_question_index = 0;
+    gameState.is_game_in_progress = true;
+
+    await updateGameState(gameState);
+
+    document.getElementById("topicModal").style.display = "none";
+
+    loadGameBtn.classList.add("btn-disabled");
+    loadGameBtn.onclick = null;
 
     loadCurrentQuestion();
 }
 
-/* ---------------------------
-   TIMER LOGIC
----------------------------- */
+/* NEXT QUESTION */
+async function nextQuestion() {
+    gameState = await fetchGameState();
 
-let totalTime = 42;
-let timeLeft = totalTime;
-const timerEl = document.getElementById("timer");
+    if (!gameState.is_game_in_progress) {
+        alert("No game in progress.");
+        return;
+    }
 
+    const topic = gameState.current_topic;
+    const topicQuestions = gameState.questions.filter(q => q.topic === topic);
+
+    currentIndex = gameState.current_question_index + 1;
+
+    if (currentIndex >= topicQuestions.length) {
+        alert("All questions complete. Game over.");
+        gameState.is_game_in_progress = false;
+        await updateGameState(gameState);
+
+        loadGameBtn.classList.remove("btn-disabled");
+        loadGameBtn.onclick = onLoadGameClick;
+
+        clearInterval(timerInterval);
+        clearInterval(voteInterval);
+        return;
+    }
+
+    gameState.current_question_index = currentIndex;
+    await updateGameState(gameState);
+
+    loadCurrentQuestion();
+}
+
+/* LOAD CURRENT QUESTION */
+async function loadCurrentQuestion() {
+    gameState = await fetchGameState();
+
+    const topic = gameState.current_topic;
+    const topicQuestions = gameState.questions.filter(q => q.topic === topic);
+    currentIndex = gameState.current_question_index;
+
+    const q = topicQuestions[currentIndex];
+
+    topicEl.textContent = "Topic: " + topic;
+    questionEl.textContent = q.question;
+
+    totalTime = q.timer_seconds || 30;
+    timeLeft = totalTime;
+
+    votes = 0;
+    allVoted = false;
+    voteEl.textContent = `0/${teamCount} VOTED`;
+
+    clearInterval(timerInterval);
+    clearInterval(voteInterval);
+
+    timerInterval = setInterval(updateTimer, 1000);
+    voteInterval = setInterval(updateVotes, 1500);
+}
+
+/* TIMER */
 function updateTimer() {
+    if (allVoted) return;
+
     if (timeLeft > 0) {
         timeLeft--;
 
-        let m = "00";
         let s = timeLeft < 10 ? "0" + timeLeft : timeLeft;
-        timerEl.textContent = `${m}:${s}`;
+        timerEl.textContent = `00:${s}`;
 
         let fraction = timeLeft / totalTime;
 
         timerEl.classList.remove("timer-green", "timer-yellow", "timer-red", "blink");
 
-        if (fraction > 2/3) {
-            timerEl.classList.add("timer-green");
-        } else if (fraction > 1/3) {
-            timerEl.classList.add("timer-yellow");
-        } else {
-            timerEl.classList.add("timer-red", "blink");
-        }
+        if (fraction > 2/3) timerEl.classList.add("timer-green");
+        else if (fraction > 1/3) timerEl.classList.add("timer-yellow");
+        else timerEl.classList.add("timer-red", "blink");
     }
 }
-setInterval(updateTimer, 1000);
 
-/* ---------------------------
-   VOTE COUNTER SIMULATION
----------------------------- */
-
-let votes = 0;
-const maxVotes = 24;
-const voteEl = document.getElementById("votes");
-
+/* VOTES (simulated) */
 function updateVotes() {
-    if (votes < maxVotes) {
-        votes++;
-        voteEl.textContent = `${votes}/${maxVotes} VOTED`;
+    if (allVoted) return;
 
-        let fraction = votes / maxVotes;
+    if (votes < teamCount) {
+        votes++;
+        voteEl.textContent = `${votes}/${teamCount} VOTED`;
+
+        let fraction = votes / teamCount;
 
         voteEl.classList.remove("vote-red", "vote-yellow", "vote-green");
 
-        if (fraction < 1/3) {
-            voteEl.classList.add("vote-red");
-        } else if (fraction < 2/3) {
-            voteEl.classList.add("vote-yellow");
-        } else {
-            voteEl.classList.add("vote-green");
-        }
+        if (fraction < 1/3) voteEl.classList.add("vote-red");
+        else if (fraction < 2/3) voteEl.classList.add("vote-yellow");
+        else voteEl.classList.add("vote-green");
+    }
+
+    if (votes >= teamCount) {
+        allVoted = true;
+        clearInterval(timerInterval);
+        clearInterval(voteInterval);
     }
 }
 
-setInterval(updateVotes, 1500);
+/* INIT */
+(async function init() {
+    await loadTeams();
+
+    try {
+        const state = await fetchGameState();
+        gameState = state;
+
+        if (state.is_game_in_progress) {
+            loadGameBtn.classList.add("btn-disabled");
+            loadGameBtn.onclick = null;
+            loadCurrentQuestion();
+        } else {
+            topicEl.textContent = "Topic:";
+            questionEl.textContent = "";
+            totalTime = 30;
+            timeLeft = 30;
+            timerEl.textContent = "00:30";
+            votes = 0;
+            voteEl.textContent = `0/${teamCount} VOTED`;
+        }
+    } catch (e) {
+        console.error("Error loading game_state.json", e);
+    }
+})();
 </script>
 
 </body>
