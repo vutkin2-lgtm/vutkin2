@@ -1,169 +1,114 @@
 {
-  "current_topic": "Funny Animals",
-  "current_question_index": 2,
-  "is_game_in_progress": true,
+  "is_game_in_progress": false,
+  "current_topic": null,
+  "current_question_index": 0,
   "questions": [
     {
+      "id": 1,
       "topic": "Funny Doctors",
-      "question": "A doctor walks into the exam room and says, 'I have good news and bad news.' What is the patient most likely thinking?",
-      "correct_answer": "The bill will be the bad news",
-      "difficulty": "complex",
-      "timer_seconds": 120,
-      "points": {
-        "correct": 5,
-        "wrong": -1,
-        "maybe": 1
-      },
-      "options": [
-        "The bill will be the bad news",
-        "The doctor forgot their name again",
-        "The doctor is about to prescribe kale",
-        "The doctor wants to borrow money"
-      ]
+      "question": "Should a doctor diagnose you based on your horoscope?",
+      "correct_answer": "no",
+      "timer_seconds": 30
     },
     {
+      "id": 2,
       "topic": "Funny Doctors",
-      "question": "Why did the doctor bring a red pen to work?",
-      "correct_answer": "In case they needed to draw blood",
-      "difficulty": "moderate",
-      "timer_seconds": 60,
-      "points": {
-        "correct": 3,
-        "wrong": -1,
-        "maybe": 1
-      },
-      "options": [
-        "In case they needed to draw blood",
-        "To correct patients' handwriting",
-        "To sign autographs",
-        "To match their scrubs"
-      ]
+      "question": "If a doctor says 'this might sting', should you trust them?",
+      "correct_answer": "no",
+      "timer_seconds": 30
     },
     {
+      "id": 3,
       "topic": "Funny Doctors",
-      "question": "A patient says, 'Doctor, I feel like a pair of curtains.' What does the doctor reply?",
-      "correct_answer": "Pull yourself together",
-      "difficulty": "simple",
-      "timer_seconds": 30,
-      "points": {
-        "correct": 1,
-        "wrong": 0,
-        "maybe": 1
-      },
-      "options": [
-        "Pull yourself together",
-        "Stop hanging around",
-        "You're looking a little draped",
-        "Try opening up"
-      ]
+      "question": "Should a surgeon ever say 'oops' during an operation?",
+      "correct_answer": "no",
+      "timer_seconds": 30
     },
     {
+      "id": 4,
+      "topic": "Funny Doctors",
+      "question": "Is WebMD a reliable way to diagnose yourself with 12 diseases at once?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 5,
+      "topic": "Funny Doctors",
+      "question": "Should you trust a doctor who high-fives you after every heartbeat?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+
+    {
+      "id": 6,
       "topic": "Funny Animals",
-      "question": "Why did the cow become an astronaut?",
-      "correct_answer": "To see the moooon",
-      "difficulty": "simple",
-      "timer_seconds": 30,
-      "points": {
-        "correct": 1,
-        "wrong": 0,
-        "maybe": 1
-      },
-      "options": [
-        "To see the moooon",
-        "To escape the farm taxes",
-        "To find space grass",
-        "To join the Milky Way union"
-      ]
+      "question": "Do cats secretly judge humans 24 hours a day?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
     },
     {
+      "id": 7,
       "topic": "Funny Animals",
-      "question": "What do you call a bear with no teeth?",
-      "correct_answer": "A gummy bear",
-      "difficulty": "moderate",
-      "timer_seconds": 60,
-      "points": {
-        "correct": 3,
-        "wrong": -1,
-        "maybe": 1
-      },
-      "options": [
-        "A gummy bear",
-        "A soft grizzly",
-        "A bear in retirement",
-        "A cuddly predator"
-      ]
+      "question": "Should you trust a squirrel that makes direct eye contact while stealing your food?",
+      "correct_answer": "no",
+      "timer_seconds": 30
     },
     {
+      "id": 8,
       "topic": "Funny Animals",
-      "question": "Why did the chicken join a band?",
-      "correct_answer": "Because it had the drumsticks",
-      "difficulty": "complex",
-      "timer_seconds": 120,
-      "points": {
-        "correct": 5,
-        "wrong": -1,
-        "maybe": 1
-      },
-      "options": [
-        "Because it had the drumsticks",
-        "Because it wanted to wing it",
-        "Because it crossed the road to the concert",
-        "Because it needed a new pecking order"
-      ]
+      "question": "Is a dog always innocent, even when caught chewing your shoes?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
     },
     {
-      "topic": "Funny Flowers",
-      "question": "Why did the flower start telling jokes?",
-      "correct_answer": "It wanted to be a blooming comedian",
-      "difficulty": "simple",
-      "timer_seconds": 30,
-      "points": {
-        "correct": 1,
-        "wrong": 0,
-        "maybe": 1
-      },
-      "options": [
-        "It wanted to be a blooming comedian",
-        "It was tired of being picked on",
-        "It wanted to grow its audience",
-        "It needed to plant new ideas"
-      ]
+      "id": 9,
+      "topic": "Funny Animals",
+      "question": "Should penguins be allowed to run airlines because they wear tuxedos?",
+      "correct_answer": "no",
+      "timer_seconds": 30
     },
     {
-      "topic": "Funny Flowers",
-      "question": "What do flowers do when they get embarrassed?",
-      "correct_answer": "They turn rosy",
-      "difficulty": "moderate",
-      "timer_seconds": 60,
-      "points": {
-        "correct": 3,
-        "wrong": -1,
-        "maybe": 1
-      },
-      "options": [
-        "They turn rosy",
-        "They wilt a little",
-        "They hide behind leaves",
-        "They drop their petals"
-      ]
+      "id": 10,
+      "topic": "Funny Animals",
+      "question": "Do goats scream just to create chaos?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
+    },
+
+    {
+      "id": 11,
+      "topic": "Funny Vacation",
+      "question": "Should you trust a hotel that advertises 'ocean view' but is 10 miles inland?",
+      "correct_answer": "no",
+      "timer_seconds": 30
     },
     {
-      "topic": "Funny Flowers",
-      "question": "Why did the sunflower bring a ladder to the garden?",
-      "correct_answer": "It wanted to reach new heights",
-      "difficulty": "complex",
-      "timer_seconds": 120,
-      "points": {
-        "correct": 5,
-        "wrong": -1,
-        "maybe": 1
-      },
-      "options": [
-        "It wanted to reach new heights",
-        "It was tired of being overshadowed",
-        "It wanted to look down on the daisies",
-        "It was climbing the social stem"
-      ]
+      "id": 12,
+      "topic": "Funny Vacation",
+      "question": "Is it normal to gain 5 pounds on vacation from 'just looking at food'?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
+    },
+    {
+      "id": 13,
+      "topic": "Funny Vacation",
+      "question": "Should you follow a tour guide who says 'I’ve never been here before either'?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 14,
+      "topic": "Funny Vacation",
+      "question": "Is it acceptable to pack 14 outfits for a 3-day trip?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
+    },
+    {
+      "id": 15,
+      "topic": "Funny Vacation",
+      "question": "Should you trust a rental car that starts only when you kick it?",
+      "correct_answer": "no",
+      "timer_seconds": 30
     }
   ]
 }
