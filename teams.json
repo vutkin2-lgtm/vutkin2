@@ -1,4 +1,10 @@
 {
-  "teams": [],
-  "team_count": 0
+  "teams": [
+    {
+      "id": 1,
+      "name": "test1",
+      "score": 0
+    }
+  ],
+  "team_count": 1
 }
