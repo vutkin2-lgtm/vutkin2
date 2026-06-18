@@ -8,35 +8,46 @@
 body{margin:0;padding:0;background:#0d0d0d;font-family:Arial,sans-serif;color:#f7d000;text-align:center}
 .container{max-width:420px;margin:auto;padding:20px}
 h1{font-size:32px;font-weight:900;margin-bottom:20px}
-input,select{width:100%;padding:14px;font-size:18px;margin:12px 0;background:#222;color:#f7d000;border:2px solid #f7d000;border-radius:8px}
-.btn{border:3px solid #f7d000;padding:14px 0;margin:12px 0;border-radius:10px;font-size:20px;font-weight:bold;text-decoration:none;color:#f7d000;display:block;cursor:pointer}
-.btn:hover{box-shadow:0 0 12px #f7d000;transform:scale(1.03)}
+.btn{width:100%;padding:18px 0;margin:12px 0;border:3px solid #f7d000;border-radius:10px;color:#f7d000;font-size:24px;font-weight:bold;text-decoration:none;display:block;cursor:pointer}
+.btn:active{background:#f7d000;color:#000}
+.btn-disabled{opacity:.4;pointer-events:none}
 .panel{border:3px solid #f7d000;border-radius:10px;padding:20px;margin-top:25px;text-align:left}
-.question{font-size:20px;color:#fff;margin-bottom:10px}
 .label{font-size:18px;color:#f7d000;margin-bottom:6px}
+.question{font-size:20px;color:#fff;margin-bottom:10px}
+.timer{font-size:28px;font-weight:bold;margin-top:20px}
+.timer-green{color:#0f0}
+.timer-yellow{color:#ff0}
+.timer-red{color:#f00}
 </style>
 </head>
 <body>
 
 <div class="container">
 
-    <h1>JOIN GAME</h1>
+    <h1>UNANIMOUS!</h1>
 
     <div id="joinSection">
-        <input id="playerName" placeholder="Enter your name">
-        <select id="teamDropdown"></select>
-        <a class="btn" onclick="joinGame()">JOIN</a>
+        <input id="playerName" placeholder="Enter your name" style="width:100%;padding:14px;font-size:18px;margin:12px 0;background:#222;color:#f7d000;border:2px solid #f7d000;border-radius:8px">
+        <a class="btn" onclick="joinGame()">JOIN GAME</a>
     </div>
 
     <div id="gameSection" style="display:none;">
         <h2 id="teamLabel"></h2>
+
         <div class="panel">
             <div class="label">Topic</div>
             <div id="topicText" class="question"></div>
 
             <div class="label">Question</div>
             <div id="questionText" class="question"></div>
+
+            <div id="timer" class="timer timer-green">00:30</div>
         </div>
+
+        <a id="btnYes" class="btn" onclick="sendVote('yes')">YES</a>
+        <a id="btnNo" class="btn" onclick="sendVote('no')">NO</a>
+        <a id="btnMaybe" class="btn" onclick="sendVote('maybe')">MAYBE</a>
+
     </div>
 
 </div>
@@ -45,10 +56,10 @@ input,select{width:100%;padding:14px;font-size:18px;margin:12px 0;background:#22
 const REPO_OWNER="vutkin2-lgtm";
 const REPO_NAME="vutkin2";
 const FILE_GAME="game_state.json";
-const FILE_TEAMS="teams.json";
+const FILE_VOTES="votes.json";
 
 let playerName="";
-let playerTeam="";
+let hasVoted=false;
 
 /* Fetch helper */
 async function fetchJson(path){
@@ -57,43 +68,25 @@ async function fetchJson(path){
     return await res.json();
 }
 
-/* Load teams into dropdown */
-async function loadTeams(){
-    const data=await fetchJson(FILE_TEAMS);
-    const dd=document.getElementById("teamDropdown");
-    dd.innerHTML="";
-    data.teams.forEach(t=>{
-        const opt=document.createElement("option");
-        opt.value=t.name;
-        opt.textContent=t.name;
-        dd.appendChild(opt);
-    });
-}
-
 /* Player joins */
 function joinGame(){
     playerName=document.getElementById("playerName").value.trim();
-    playerTeam=document.getElementById("teamDropdown").value;
-
-    if(!playerName){
-        alert("Enter your name");
-        return;
-    }
+    if(!playerName){alert("Enter your name");return;}
 
     document.getElementById("joinSection").style.display="none";
     document.getElementById("gameSection").style.display="block";
-    document.getElementById("teamLabel").textContent="Team: "+playerTeam;
+    document.getElementById("teamLabel").textContent="Player: "+playerName;
 
     startPolling();
 }
 
-/* Poll game state every 2 seconds */
-async function startPolling(){
+/* Poll game state every 1.5 seconds */
+function startPolling(){
     updateScreen();
-    setInterval(updateScreen,2000);
+    setInterval(updateScreen,1500);
 }
 
-/* Update topic + question */
+/* Update topic + question + timer */
 async function updateScreen(){
     const game=await fetchJson(FILE_GAME);
 
@@ -110,10 +103,58 @@ async function updateScreen(){
 
     document.getElementById("topicText").textContent=topic;
     document.getElementById("questionText").textContent=q.question;
+
+    updateTimer(q.timer_seconds);
 }
 
-/* Init */
-loadTeams();
+/* Timer display only (host controls real timer) */
+let lastTime=30;
+function updateTimer(total){
+    if(lastTime>0) lastTime--;
+    const t=lastTime<10?"0"+lastTime:lastTime;
+
+    const el=document.getElementById("timer");
+    el.textContent="00:"+t;
+
+    el.className="timer";
+    if(lastTime>total*0.66) el.classList.add("timer-green");
+    else if(lastTime>total*0.33) el.classList.add("timer-yellow");
+    else el.classList.add("timer-red");
+}
+
+/* Send vote to GitHub */
+async function sendVote(choice){
+    if(hasVoted) return;
+
+    hasVoted=true;
+    disableButtons();
+
+    const voteObj={
+        player:playerName,
+        vote:choice,
+        timestamp:Date.now()
+    };
+
+    await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_VOTES}`,{
+        method:"PUT",
+        headers:{
+            "Authorization":`Bearer ${GITHUB_TOKEN}`,
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            message:"Player vote",
+            content:btoa(JSON.stringify(voteObj,null,2)),
+            sha:(await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_VOTES}`).then(r=>r.json())).sha
+        })
+    });
+}
+
+/* Disable vote buttons */
+function disableButtons(){
+    document.getElementById("btnYes").classList.add("btn-disabled");
+    document.getElementById("btnNo").classList.add("btn-disabled");
+    document.getElementById("btnMaybe").classList.add("btn-disabled");
+}
 </script>
 
 </body>
