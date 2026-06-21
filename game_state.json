@@ -1,6 +1,6 @@
 {
-  "is_game_in_progress": false,
-  "current_topic": null,
+  "is_game_in_progress": true,
+  "current_topic": "Funny Animals",
   "current_question_index": 0,
   "questions": [
     {
@@ -38,7 +38,6 @@
       "correct_answer": "no",
       "timer_seconds": 30
     },
-
     {
       "id": 6,
       "topic": "Funny Animals",
@@ -74,7 +73,6 @@
       "correct_answer": "yes",
       "timer_seconds": 30
     },
-
     {
       "id": 11,
       "topic": "Funny Vacation",
