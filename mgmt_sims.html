@@ -107,23 +107,31 @@ h1{
         <h2>Team Standings</h2>
         <div id="standingsList"></div>
     </div>
+
+</div>
+
 <script>
-/* ---------------------------------------------------------
-   CONFIG
---------------------------------------------------------- */
+// ---------------------------------------------------------
+// CONFIG
+// ---------------------------------------------------------
 const REPO_OWNER = "vutkin2-lgtm";
 const REPO_NAME  = "vutkin2";
 const FILE_GAME  = "game_state.json";
 const FILE_TEAMS = "teams.json";
 const FILE_VOTES = "votes.json";
 
-/* ---------------------------------------------------------
-   GITHUB HELPERS
---------------------------------------------------------- */
+let gameState = null;
+let teamsLocal = [];
+let timerValue = 30;
+let timerInterval = null;
+
+// ---------------------------------------------------------
+// GITHUB HELPERS
+// ---------------------------------------------------------
 async function fetchJson(path){
     const url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${path}?t=${Date.now()}`;
     const res = await fetch(url);
-    if(!res.ok) throw new Error("Fetch failed: " + path);
+    if(!res.ok) throw new Error("Fetch failed: " + path + " (" + res.status + ")");
     return await res.json();
 }
 
@@ -149,12 +157,9 @@ async function writeJson(path, obj, message){
     });
 }
 
-/* ---------------------------------------------------------
-   LOAD GAME STATE
---------------------------------------------------------- */
-let gameState = null;
-let teamsLocal = [];
-
+// ---------------------------------------------------------
+// LOADERS
+// ---------------------------------------------------------
 async function loadGameState(){
     gameState = await fetchJson(FILE_GAME);
     return gameState;
@@ -171,94 +176,43 @@ async function loadVotes(){
     return data.votes || [];
 }
 
-/* ---------------------------------------------------------
-   RENDER STANDINGS
---------------------------------------------------------- */
+// ---------------------------------------------------------
+// STANDINGS
+// ---------------------------------------------------------
 function renderStandings(){
     const list = document.getElementById("standingsList");
     list.innerHTML = "";
 
     teamsLocal
-        .sort((a,b)=>b.score - a.score)
+        .sort((a,b)=> (b.score||0) - (a.score||0))
         .forEach(team=>{
             const row = document.createElement("div");
             row.className = "team-row";
             row.innerHTML = `
                 <span>${team.name}</span>
-                <span>${team.score}</span>
+                <span>${team.score || 0}</span>
             `;
             list.appendChild(row);
         });
 }
 
-/* ---------------------------------------------------------
-   SCORING LOGIC (Majority, Tie = YES)
---------------------------------------------------------- */
-async function scoreCurrentQuestion(){
-    const votes = await loadVotes();
-    if(!votes.length) return;
-
-    const topic = gameState.current_topic;
-    const index = gameState.current_question_index;
-    const questions = gameState.questions.filter(q => q.topic === topic);
-    const q = questions[index];
-
-    const correct = q.correct_answer;
-
-    // Group votes by team
-    const grouped = {};
-    votes.forEach(v=>{
-        if(!grouped[v.team]) grouped[v.team] = [];
-        grouped[v.team].push(v.answer);
-    });
-
-    // Score each team
-    Object.keys(grouped).forEach(teamName=>{
-        const answers = grouped[teamName];
-        const yesCount = answers.filter(a=>"yes"===a).length;
-        const noCount  = answers.filter(a=>"no"===a).length;
-
-        // Tie = YES (your rule)
-        const teamAnswer = yesCount >= noCount ? "yes" : "no";
-
-        const team = teamsLocal.find(t=>t.name===teamName);
-        if(!team) return;
-
-        if(teamAnswer === correct){
-            team.score = (team.score || 0) + 1;
-        }
-    });
-
-    // Save updated scores
-    await writeJson(FILE_TEAMS, {teams:teamsLocal}, "Update team scores");
-
-    // Clear votes
-    await writeJson(FILE_VOTES, {votes:[]}, "Clear votes");
-
-    // Update standings panel
-    renderStandings();
-}
-
-/* ---------------------------------------------------------
-   SHOW CURRENT QUESTION + CORRECT ANSWER
---------------------------------------------------------- */
+// ---------------------------------------------------------
+// SHOW CURRENT QUESTION
+// ---------------------------------------------------------
 function showCurrentQuestion(){
     const topic = gameState.current_topic;
     const index = gameState.current_question_index;
     const questions = gameState.questions.filter(q => q.topic === topic);
     const q = questions[index];
 
-    document.getElementById("topicText").textContent = topic;
-    document.getElementById("questionText").textContent = q.question;
-    document.getElementById("correctAnswer").textContent = "Correct Answer: " + q.correct_answer.toUpperCase();
+    document.getElementById("topicText").textContent = topic || "";
+    document.getElementById("questionText").textContent = q ? q.question : "";
+    document.getElementById("correctAnswer").textContent = q ? ("Correct Answer: " + q.correct_answer.toUpperCase()) : "";
 }
 
-/* ---------------------------------------------------------
-   TIMER (visual only)
---------------------------------------------------------- */
-let timerValue = 30;
-let timerInterval = null;
-
+// ---------------------------------------------------------
+// TIMER
+// ---------------------------------------------------------
 function startTimer(seconds){
     timerValue = seconds;
     updateTimerDisplay();
@@ -284,13 +238,53 @@ function updateTimerDisplay(){
     else if(timerValue > 10) el.classList.add("timer-yellow");
     else el.classList.add("timer-red");
 }
-</script>
-<script>
-/* ---------------------------------------------------------
-   EVENT HANDLERS + GAME FLOW
---------------------------------------------------------- */
 
-/* LOAD GAME BUTTON */
+// ---------------------------------------------------------
+// SCORING (majority, tie = YES)
+// ---------------------------------------------------------
+async function scoreCurrentQuestion(){
+    const votes = await loadVotes();
+    if(!votes.length) return;
+
+    const topic = gameState.current_topic;
+    const index = gameState.current_question_index;
+    const questions = gameState.questions.filter(q => q.topic === topic);
+    const q = questions[index];
+    if(!q) return;
+
+    const correct = q.correct_answer; // "yes" or "no"
+
+    // group by team
+    const grouped = {};
+    votes.forEach(v=>{
+        if(!grouped[v.team]) grouped[v.team] = [];
+        grouped[v.team].push(v.answer);
+    });
+
+    Object.keys(grouped).forEach(teamName=>{
+        const answers = grouped[teamName];
+        const yesCount = answers.filter(a => a === "yes").length;
+        const noCount  = answers.filter(a => a === "no").length;
+
+        // tie = YES
+        const teamAnswer = yesCount >= noCount ? "yes" : "no";
+
+        const team = teamsLocal.find(t => t.name === teamName);
+        if(!team) return;
+
+        if(teamAnswer === correct){
+            team.score = (team.score || 0) + 1;
+        }
+    });
+
+    await writeJson(FILE_TEAMS, {teams:teamsLocal}, "Update team scores");
+    await writeJson(FILE_VOTES, {votes:[]}, "Clear votes");
+    renderStandings();
+}
+
+// ---------------------------------------------------------
+// BUTTON HANDLERS
+// ---------------------------------------------------------
 document.getElementById("loadGameBtn").onclick = async function(){
     try{
         await loadGameState();
@@ -309,20 +303,19 @@ document.getElementById("loadGameBtn").onclick = async function(){
         showCurrentQuestion();
         startTimer(30);
 
-        document.getElementById("loadGameBtn").classList.add("btn-disabled");
+        this.classList.add("btn-disabled");
     }catch(e){
         console.error(e);
         alert("Error loading game");
     }
 };
 
-/* NEXT QUESTION BUTTON */
 document.getElementById("nextBtn").onclick = async function(){
     try{
         await loadGameState();
         await loadTeams();
 
-        // Score the question FIRST
+        // score current question
         await scoreCurrentQuestion();
 
         const topic = gameState.current_topic;
@@ -330,7 +323,6 @@ document.getElementById("nextBtn").onclick = async function(){
 
         gameState.current_question_index++;
 
-        // End of topic?
         if(gameState.current_question_index >= questions.length){
             alert("Topic complete. Game over.");
             gameState.is_game_in_progress = false;
@@ -338,22 +330,19 @@ document.getElementById("nextBtn").onclick = async function(){
             return;
         }
 
-        // Save updated index
         await writeJson(FILE_GAME, gameState, "Next question");
 
-        // Show next question
         showCurrentQuestion();
         startTimer(30);
-
     }catch(e){
         console.error(e);
         alert("Error moving to next question");
     }
 };
 
-/* ---------------------------------------------------------
-   INITIALIZATION
---------------------------------------------------------- */
+// ---------------------------------------------------------
+// INIT
+// ---------------------------------------------------------
 (async function init(){
     try{
         await loadTeams();
@@ -365,5 +354,3 @@ document.getElementById("nextBtn").onclick = async function(){
 
 </body>
 </html>
-
-</div>
