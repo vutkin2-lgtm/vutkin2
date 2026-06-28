@@ -1,7 +1,7 @@
 {
-  "is_game_in_progress": true,
-  "current_topic": "Funny Animals",
-  "current_question_index": 2,
+  "is_game_in_progress": false,
+  "current_topic": "",
+  "current_question_index": -1,
   "questions": [
     {
       "id": 1,
