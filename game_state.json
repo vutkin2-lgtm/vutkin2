@@ -1,8 +1,112 @@
 {
-  "is_game_in_progress": false,
-  "current_topic": "",
-  "current_question_index": -1,
-  "question": "",
-  "correct_answer": "",
-  "timer": 30
+  "is_game_in_progress": true,
+  "current_topic": "Funny Animals",
+  "current_question_index": 1,
+  "questions": [
+    {
+      "id": 1,
+      "topic": "Funny Doctors",
+      "question": "Should a doctor diagnose you based on your horoscope?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 2,
+      "topic": "Funny Doctors",
+      "question": "If a doctor says 'this might sting', should you trust them?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 3,
+      "topic": "Funny Doctors",
+      "question": "Should a surgeon ever say 'oops' during an operation?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 4,
+      "topic": "Funny Doctors",
+      "question": "Is WebMD a reliable way to diagnose yourself with 12 diseases at once?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 5,
+      "topic": "Funny Doctors",
+      "question": "Should you trust a doctor who high-fives you after every heartbeat?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 6,
+      "topic": "Funny Animals",
+      "question": "Do cats secretly judge humans 24 hours a day?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
+    },
+    {
+      "id": 7,
+      "topic": "Funny Animals",
+      "question": "Should you trust a squirrel that makes direct eye contact while stealing your food?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 8,
+      "topic": "Funny Animals",
+      "question": "Is a dog always innocent, even when caught chewing your shoes?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
+    },
+    {
+      "id": 9,
+      "topic": "Funny Animals",
+      "question": "Should penguins be allowed to run airlines because they wear tuxedos?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 10,
+      "topic": "Funny Animals",
+      "question": "Do goats scream just to create chaos?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
+    },
+    {
+      "id": 11,
+      "topic": "Funny Vacation",
+      "question": "Should you trust a hotel that advertises 'ocean view' but is 10 miles inland?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 12,
+      "topic": "Funny Vacation",
+      "question": "Is it normal to gain 5 pounds on vacation from 'just looking at food'?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
+    },
+    {
+      "id": 13,
+      "topic": "Funny Vacation",
+      "question": "Should you follow a tour guide who says 'I’ve never been here before either'?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    },
+    {
+      "id": 14,
+      "topic": "Funny Vacation",
+      "question": "Is it acceptable to pack 14 outfits for a 3-day trip?",
+      "correct_answer": "yes",
+      "timer_seconds": 30
+    },
+    {
+      "id": 15,
+      "topic": "Funny Vacation",
+      "question": "Should you trust a rental car that starts only when you kick it?",
+      "correct_answer": "no",
+      "timer_seconds": 30
+    }
+  ]
 }
